@@ -1,0 +1,29 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/darinhaener/.nvm/v0.10.38/bin/node',
+1 verbose cli   '/Users/darinhaener/.nvm/v0.10.38/bin/npm',
+1 verbose cli   'run',
+1 verbose cli   'example' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.38
+4 verbose run-script [ 'preexample', 'example', 'postexample' ]
+5 info preexample reactable-forms@0.0.1
+6 info example reactable-forms@0.0.1
+7 verbose unsafe-perm in lifecycle true
+8 info reactable-forms@0.0.1 Failed to exec example script
+9 error reactable-forms@0.0.1 example: `webpack-dev-server --config ./example/webpack.config.js`
+9 error Exit status 8
+10 error Failed at the reactable-forms@0.0.1 example script.
+10 error This is most likely a problem with the reactable-forms package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     webpack-dev-server --config ./example/webpack.config.js
+10 error You can get their info via:
+10 error     npm owner ls reactable-forms
+10 error There is likely additional logging output above.
+11 error System Darwin 14.3.0
+12 error command "/Users/darinhaener/.nvm/v0.10.38/bin/node" "/Users/darinhaener/.nvm/v0.10.38/bin/npm" "run" "example"
+13 error cwd /Users/darinhaener/code/modules/reactable-forms
+14 error node -v v0.10.38
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

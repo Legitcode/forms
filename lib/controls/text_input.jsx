@@ -5,6 +5,8 @@ import React from 'react';
 export default class TextInput extends React.Component {
   constructor(props) {
     super(props);
+
+    this.handleChanged = this.handleChanged.bind(this);
   }
 
   value() {
@@ -12,14 +14,17 @@ export default class TextInput extends React.Component {
   }
 
   handleChanged() {
-    this.props.stateAction(this.value());
+    let newState = {};
+    newState[this.props.name] = this.value();
+
+    this.props.onChange(newState);
   }
 
   render() {
     return (
       <input
         className={this.props.classes}
-        onChange={this.handleChanged.bind(this)}
+        onChange={this.handleChanged}
         type="text"
         ref={this.props.name}
         name={this.props.name}

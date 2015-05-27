@@ -4,10 +4,22 @@ import React from 'react';
 import TextInput from './controls/text_input';
 import NumberInput from './controls/number_input';
 import SelectInput from './controls/select_input';
-import Strings from './utils/strings';
 import Collection from './utils/collection';
 
 export default class Property extends React.Component {
+  static defaultProps = {
+    onChange: function(props) {
+      console.log("On change was not defined for properties:" + JSON.stringify(props));
+    },
+    inputType: "text",
+    options: [],
+    defaultValue: "",
+    name: "input",
+    containerClass: "input-area",
+    inputClass: "",
+    value: ""
+  }
+
   constructor(props) {
     super(props);
 
@@ -27,12 +39,13 @@ export default class Property extends React.Component {
   valid() {
     if(!this.props.validation) return true;
 
-    window.eval(this.props.validation);
-
-    if(validate(this.value())) {
+    if(this.props.validation(this.value())) {
       return true;
     } else {
-      this.props.stateAction({ error: this.props.errorMessage, errorState: 'block' });
+      this.setState({
+        error: this.props.errorMessage,
+        errorState: 'block'
+      })
       return false;
     }
   }
@@ -43,7 +56,8 @@ export default class Property extends React.Component {
       name: this.props.name,
       defaultValue: this.props.value,
       classes: this.props.inputClass,
-      stateAction: this.props.stateAction
+      onChange: this.props.onChange,
+      options: this.props.options
     }
   }
 
@@ -69,17 +83,4 @@ export default class Property extends React.Component {
       </div>
     )
   }
-}
-
-Property.defaultProps = {
-  stateAction: function(props) {
-    console.log("State action was not defined for properties:" + JSON.stringify(props));
-  },
-  inputType: "text",
-  options: [],
-  defaultValue: "",
-  name: "input",
-  containerClass: "input-area",
-  inputClass: "",
-  value: ""
 }

@@ -8,11 +8,14 @@
     "url": "https://github.com/dphaener/reactable-forms"
   },
   "license": "MIT",
-  "main": "./lib/index.js",
+  "main": "./example/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "example": "webpack-dev-server --config ./example/webpack.config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "debounce": "^1.0.0"
+  },
   "devDependencies": {
     "babel-core": "^5.4.7",
     "babel-jest": "^5.2.0",
