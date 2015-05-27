@@ -10,14 +10,19 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "make test"
+    "test": "jest"
   },
   "dependencies": {},
   "devDependencies": {
-    "hint-hint": "~0.3.0",
+    "babel-core": "^5.4.7",
+    "babel-jest": "^5.2.0",
+    "babel-loader": "^5.1.3",
+    "jest-cli": "^0.4.5",
     "node-libs-browser": "^0.5.2",
-    "tap": "~0.3.1",
-    "webpack": "^1.9.10"
+    "react-hot-loader": "^1.2.7",
+    "react-tools": "^0.13.3",
+    "webpack": "^1.9.10",
+    "webpack-dev-server": "^1.9.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -25,5 +30,24 @@
   },
   "peerDependencies": {
     "react": ">=0.13"
+  },
+  "jest": {
+    "rootDir": "./lib",
+    "scriptPreprocessor": "<rootDir>/__tests__/preprocessor.js",
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "es6"
+    ],
+    "unmockedModulePathPatterns": [
+      "react"
+    ],
+    "testFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "testPathIgnorePatterns": [
+      "preprocessor.js"
+    ]
   }
 }
