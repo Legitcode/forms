@@ -63,7 +63,7 @@ export default class SelectInput extends React.Component {
   }
 
   changeSelected(event) {
-    let valueElement = event.target.firstChild;
+    let valueElement = event.target;
     let selectedValue = valueElement.attributes.value.value;
     let selectedDisplay = valueElement.innerHTML;
 
@@ -90,8 +90,12 @@ export default class SelectInput extends React.Component {
   render() {
     let options = this.props.options.map((option)=> {
       return (
-        <a href={option.url} key={`selectOption-${option.value}`} onClick={this.changeSelected} className="select-option">
-          <span className="select-value" value={option.value}>{option.displayValue}</span>
+        <a href={option.url}
+          key={`selectOption-${option.value}`}
+          onClick={this.changeSelected}
+          className="select-option"
+          value={option.value} >
+          {option.displayValue}
         </a>
       )
     });
