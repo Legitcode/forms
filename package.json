@@ -2,13 +2,26 @@
   "author": "Darin Haener <dphaener@gmail.com> (https://github.com/dphaener/reactable-forms)",
   "name": "reactable-forms",
   "description": "Form and schema building tools for React",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/dphaener/reactable-forms"
   },
+  "keywords": [
+    "react",
+    "forms",
+    "form",
+    "schema",
+    "react-forms",
+    "react-form",
+    "react-schema",
+    "property",
+    "properties",
+    "react-properties",
+    "react-property"
+  ],
   "license": "MIT",
-  "main": "./example/index.js",
+  "main": "./forms.js",
   "scripts": {
     "test": "jest",
     "example": "webpack-dev-server --config ./example/webpack.config.js"
