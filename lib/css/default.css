@@ -10,17 +10,15 @@
     font-size: 1.1em !important;
     position: relative;
     color: darkgrey !important;
-    background: url("../images/down_arrow.png") no-repeat 100% 50%; }
+    background: url("../images/down_arrow.png") no-repeat 99% 53%; }
     .select input.open {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
       border-bottom: solid #bad8ee 1px; }
-    .select input.select-face.loading {
-      background: url("../images/loading_small.gif") no-repeat 90% 50%; }
     .select input:hover {
       cursor: pointer; }
     .select input:focus {
-      box-shadow: 0 0 4px rgba(44, 119, 176, 0.3) inset, 0 0 6px rgba(44, 119, 176, 0.4);
+      box-shadow: 0 0 4px rgba(44, 119, 176, 0.3) inset, 0 0 6px rgba(44, 119, 176, 0.3);
       outline: none; }
   .select .option-box {
     display: none;
@@ -43,7 +41,7 @@
       border-bottom: solid #bad8ee 1px; }
       .select .option-box a:hover {
         cursor: pointer !important;
-        background: #fcfcfc; }
+        background: white; }
       .select .option-box a:last-child {
         border-bottom: none;
         border-bottom-right-radius: 5px;

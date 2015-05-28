@@ -100,5 +100,5 @@ export default class Basic extends React.Component {
   }
 }
 
-require('./css/styles.scss');
+require('../src/css/default.scss');
 React.render(<Basic />, document.getElementById('react'));
