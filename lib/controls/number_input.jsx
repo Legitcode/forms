@@ -15,11 +15,14 @@ export default class NumberInput extends React.Component {
     return React.findDOMNode(this.refs[this.props.name]).value;
   }
 
-  handleChanged() {
-    let newState = {};
-    newState[this.props.name] = this.value();
+  serialize() {
+    let formValue = {}
+    formValue[this.props.name] = this.value();
+    return formValue;
+  }
 
-    this.props.onChange(newState);
+  handleChanged() {
+    this.props.onChange(this.serialize());
   }
 
   render() {

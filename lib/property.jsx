@@ -30,22 +30,31 @@ export default class Property extends React.Component {
       "number": NumberInput,
       "select": SelectInput
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
   value() {
     return this.refs[this.props.name].value();
   }
 
+  serialize() {
+    return this.refs[this.props.name].serialize();
+  }
+
   valid() {
     if(!this.props.validation) return true;
 
     if(this.props.validation(this.value())) {
+      this.setState({
+        errorState: 'none'
+      });
       return true;
     } else {
       this.setState({
         error: this.props.errorMessage,
         errorState: 'block'
-      })
+      });
       return false;
     }
   }
@@ -56,9 +65,14 @@ export default class Property extends React.Component {
       name: this.props.name,
       defaultValue: this.props.value,
       classes: this.props.inputClass,
-      onChange: this.props.onChange,
+      onChange: this.onChange,
       options: this.props.options
     }
+  }
+
+  onChange(value) {
+    this.valid();
+    this.props.onChange(value);
   }
 
   inputType() {

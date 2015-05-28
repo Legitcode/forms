@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-export default class Schema extends React.Component {
+export default class ListItem extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  validate() {
+  valid() {
     let valid = true;
 
     Object.keys(this.refs).forEach((refKey)=> {
@@ -26,19 +26,23 @@ export default class Schema extends React.Component {
   }
 
   render() {
-    let children = React.Children.map(this.props.children, (child, index)=> {
+    let children = React.Children.map(this.props.children, (child) => {
       if (!React.isValidElement(child)) {
         return child;
       }
 
       return React.cloneElement(child, {
-        ref: `property-${index}`
+        ref: child.props.name
       });
     });
 
     return (
-      <div key={this.props.schemaName}>
+      <div
+        key={this.props.name}
+        name={this.props.name}
+        className={this.props.className}>
         { children }
+        { this.props.removeButton }
       </div>
     )
   }

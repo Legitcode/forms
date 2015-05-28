@@ -64,14 +64,17 @@ export default class SelectInput extends React.Component {
     React.findDOMNode(this.refs.selected).value = selectedDisplay;
     React.findDOMNode(this.refs.valueInput).value = selectedValue;
     this.toggleDropDown();
-    this.updateStore();
+    this.handleChanged();
   }
 
-  updateStore() {
-    let newState = {};
-    newState[this.props.name] = this.value();
+  serialize() {
+    let formValue = {}
+    formValue[this.props.name] = this.value();
+    return formValue;
+  }
 
-    this.props.onChange(newState);
+  handleChanged() {
+    this.props.onChange(this.serialize());
   }
 
   value() {

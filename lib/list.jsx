@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import ListItem from './list/list_item';
 import Collection from './utils/collection';
 
 export default class List extends React.Component {
@@ -30,6 +31,28 @@ export default class List extends React.Component {
     }
   }
 
+  valid() {
+    let valid = true;
+
+    Object.keys(this.refs).forEach((refKey)=> {
+      if (refKey != "addButton") {
+        if (!this.refs[refKey].valid()) {
+          valid = false;
+        }
+      }
+    });
+
+    return valid;
+  }
+
+  serialize() {
+    return Object.keys(this.refs).map((refKey)=> {
+      if (refKey.match(/-[0-9]{1,100}/)) {
+        return this.refs[refKey].serialize();
+      }
+    });
+  }
+
   createChild() {
     this.childCount += 1;
     let removeButton = React.cloneElement(this.props.removeButton, {
@@ -47,15 +70,12 @@ export default class List extends React.Component {
       });
     });
 
-    return (
-      <div
-        key={`listItem-${this.childCount}`}
-        name={`listItem-${this.childCount}`}
-        className={this.props.rowClass}>
-        { children }
-        { removeButton }
-      </div>
-    )
+    return React.createElement(ListItem, {
+      name: `listItem-${this.childCount}`,
+      className: this.props.rowClass,
+      children: children,
+      removeButton: removeButton
+    });
   }
 
   addChild() {
@@ -72,7 +92,7 @@ export default class List extends React.Component {
 
   findChild(nodeValue) {
     let buttons = this.state.children.map((item)=> {
-      return item.props.children[1].props.value;
+      return item.props.removeButton.props.value;
     });
 
     return Collection.find(buttons, nodeValue);
@@ -102,9 +122,23 @@ export default class List extends React.Component {
       onClick: this.addChild
     });
 
+    let children = null;
+
+    if (this.state) {
+      children = React.Children.map(this.state.children, (child) => {
+        if (!React.isValidElement(child)) {
+          return child;
+        }
+
+        return React.cloneElement(child, {
+          ref: `${child.props.name}-${this.childCount}`
+        });
+      });
+    }
+
     return (
       <div className={this.props.classes}>
-        { this.state ? this.state.children : null }
+        { children }
         { addButton }
       </div>
     )

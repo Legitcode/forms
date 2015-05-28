@@ -11,10 +11,17 @@ export default class Basic extends React.Component {
     super(props);
 
     this.onChange = this.onChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   onChange(newValue) {
     console.log(newValue);
+  }
+
+  submitForm() {
+    if (this.refs.schema.validate()) {
+      console.log(this.refs.schema.serialize());
+    }
   }
 
   render() {
@@ -56,7 +63,9 @@ export default class Basic extends React.Component {
             name="name"
             inputType="text"
             containerClass="form-group"
-            inputClass="form-control" />
+            inputClass="form-control"
+            validation={ function(v) { return v.length > 0; } }
+            errorMessage="Name is required" />
 
           <List
             rowClass="my-row"
@@ -87,6 +96,8 @@ export default class Basic extends React.Component {
             containerClass="form-group"
             inputClass="form-control" />
         </Schema>
+
+        <button className="btn btn-primary" onClick={this.submitForm}>Submit</button>
       </Form>
     )
   }
