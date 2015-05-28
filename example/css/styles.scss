@@ -1,25 +1,5 @@
 $blue: #2c77b0;
 
-@-webkit-keyframes slideDown {
-  0%   { -webkit-transform: translateY(-50px); }
-  100% { -webkit-transform: translateY(0px); }
-}
-
-@-moz-keyframes slideDown {
-  0%   { -moz-transform: translateY(-50px); }
-  100% { -moz-transform: translateY(0px); }
-}
-
-@-webkit-keyframes slideUp {
-  0%   { -webkit-transform: translateY(0px); }
-  100% { -webkit-transform: translateY(-50px); }
-}
-
-@-moz-keyframes slideUp {
-  0%   { -moz-transform: translateY(0px);   }
-  100% { -moz-transform: translateY(-50px); }
-}
-
 .select {
   width: 100%;
   position: relative;
@@ -30,7 +10,7 @@ $blue: #2c77b0;
     border: solid $blue 1px;
     border-radius: 5px;
     box-shadow: 0 0 4px rgba(44, 119, 176, 0.3) inset;
-    font-size: 1.2em !important;
+    font-size: 1.1em !important;
     position: relative;
     color: darkgrey !important;
     background: url("../images/down_arrow.png") no-repeat 98% 50%;
@@ -58,10 +38,6 @@ $blue: #2c77b0;
 
   .option-box {
     display: none;
-    // -moz-transition: opacity 0.3s ease-in-out;
-    // -o-transition: opacity 0.3s ease-in-out;
-    // -webkit-transition: opacity 0.3s ease-in-out;
-    // transition: opacity 0.3s ease-in-out;
     position: absolute;
     left: 0;
     width: 100%;
@@ -72,8 +48,6 @@ $blue: #2c77b0;
     max-height: 250px;
     overflow-y: scroll;
     background: rgba(255, 255, 255, 0.95);
-    // -webkit-transform: translateY(-50px);
-    // -moz-transform: translateY(-50px);
 
     a {
       text-decoration: none;
@@ -84,6 +58,7 @@ $blue: #2c77b0;
       border-bottom: solid lighten($blue, 40) 1px;
 
       &:hover {
+        cursor: pointer !important;;
         background: lighten(lightgrey, 16);
       }
 
@@ -96,15 +71,6 @@ $blue: #2c77b0;
 
     &.open {
       display: block;
-      // opacity: 1;
-      // -moz-transition: opacity 0.3s ease-in-out;
-      // -o-transition: opacity 0.3s ease-in-out;
-      // -webkit-transition: opacity 0.3s ease-in-out;
-      // transition: opacity 0.3s ease-in-out;
-      // -webkit-transform: translateY(-50px);
-      // -webkit-animation: slideDown 0.5s 0.1s 1 ease forwards;
-      // -moz-transform:    translateY(-50px);
-      // -moz-animation:    slideDown 0.5s 0.1s 1 ease forwards;
     }
   }
 }
