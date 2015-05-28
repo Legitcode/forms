@@ -1,10 +1,7 @@
 "use strict";
 
 import React from 'react';
-import Form from '../lib/form';
-import Schema from '../lib/schema';
-import List from '../lib/list';
-import Property from '../lib/property';
+import { Form, Schema, List, Property } from '../src/forms';
 
 export default class Basic extends React.Component {
   constructor(props) {
