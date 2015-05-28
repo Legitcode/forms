@@ -16,6 +16,7 @@ export default class SelectInput extends React.Component {
     this.isOpen = false;
     this.debouncedSearch = debounce(this.getNewValues, 500);
     this.toggleDropDown = this.toggleDropDown.bind(this);
+    this.changeSelected = this.changeSelected.bind(this);
   }
 
   componentDidMount() {
@@ -28,7 +29,7 @@ export default class SelectInput extends React.Component {
       this.toggleDropDown();
     });
 
-    React.findDOMNode(this.refs.select).addEventListener("click", (ev) => {
+    React.findDOMNode(this.refs.arrow).addEventListener("click", (ev) => {
       ev.stopPropagation();
       this.toggleDropDown();
     });
@@ -89,7 +90,7 @@ export default class SelectInput extends React.Component {
   render() {
     let options = this.props.options.map((option)=> {
       return (
-        <a href={option.url} key={`selectOption-${option.value}`} onClick={this.changeSelected.bind(this)} className="select-option">
+        <a href={option.url} key={`selectOption-${option.value}`} onClick={this.changeSelected} className="select-option">
           <span className="select-value" value={option.value}>{option.displayValue}</span>
         </a>
       )
@@ -116,7 +117,8 @@ export default class SelectInput extends React.Component {
           readOnly />
 
     return (
-      <div className="select" ref="select">
+      <div className="select">
+        <span className="arrow" ref="arrow"></span>
         <input type="hidden" ref="valueInput" />
         { input }
         <div className={this.state.showOptions}>
