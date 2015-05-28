@@ -7,12 +7,20 @@ $lightgrey: #fcfcfc;
   width: 100%;
   position: relative;
 
-  // &:after {
-  //   content: '\25bc';
-  //   position: absolute;
-  //   top: 25%;
-  //   right: 12px;
-  // }
+  &:after {
+    pointer-events: all;
+    content: '';
+    position: absolute;
+    top: 42%;
+    right: 12px;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid lightgrey;
+    z-index: 9999;
+  }
 
   input {
     width: 100%;
@@ -23,7 +31,6 @@ $lightgrey: #fcfcfc;
     font-size: 1.1em !important;
     position: relative;
     color: darkgrey !important;
-    background: url("../images/down_arrow.png") no-repeat 99% 53%;
 
     &.open {
       border-bottom-left-radius: 0;

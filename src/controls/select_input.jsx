@@ -27,6 +27,11 @@ export default class SelectInput extends React.Component {
       ev.stopPropagation();
       this.toggleDropDown();
     });
+
+    React.findDOMNode(this.refs.select).addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.toggleDropDown();
+    });
   }
 
   getNewValues() {
@@ -111,7 +116,7 @@ export default class SelectInput extends React.Component {
           readOnly />
 
     return (
-      <div className="select">
+      <div className="select" ref="select">
         <input type="hidden" ref="valueInput" />
         { input }
         <div className={this.state.showOptions}>

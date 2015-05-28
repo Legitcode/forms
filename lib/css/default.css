@@ -1,6 +1,19 @@
 .select {
   width: 100%;
   position: relative; }
+  .select:after {
+    pointer-events: all;
+    content: '';
+    position: absolute;
+    top: 42%;
+    right: 12px;
+    cursor: pointer;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid lightgrey;
+    z-index: 9999; }
   .select input {
     width: 100%;
     padding: 5px 15px;
@@ -9,8 +22,7 @@
     box-shadow: 0 0 4px rgba(44, 119, 176, 0.3) inset;
     font-size: 1.1em !important;
     position: relative;
-    color: darkgrey !important;
-    background: url("../images/down_arrow.png") no-repeat 99% 53%; }
+    color: darkgrey !important; }
     .select input.open {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
