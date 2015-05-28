@@ -25,7 +25,7 @@
   "scripts": {
     "test": "jest",
     "example": "webpack-dev-server --config ./example/webpack.config.js --hot",
-    "compile": "babel src --ignore __tests__ --stage 0 --out-dir lib",
+    "compile": "babel src --ignore __tests__ --stage 0 --out-dir lib; node-sass src/css/default.scss lib/default.css",
     "push": "npm run compile; npm publish ./"
   },
   "dependencies": {

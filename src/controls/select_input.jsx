@@ -25,8 +25,8 @@ export default class SelectInput extends React.Component {
 
     React.findDOMNode(this.refs.selected).addEventListener("click", (ev) => {
       ev.stopPropagation();
-      this.openDropDown();
-    })
+      this.toggleDropDown();
+    });
   }
 
   getNewValues() {
