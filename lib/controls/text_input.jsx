@@ -1,12 +1,14 @@
 "use strict";
 
 import React from 'react';
+import debounce from 'debounce';
 
 export default class TextInput extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleChanged = this.handleChanged.bind(this);
+    this.debouncedChange = debounce(this.handleChanged, 500);
   }
 
   value() {
@@ -24,7 +26,7 @@ export default class TextInput extends React.Component {
     return (
       <input
         className={this.props.classes}
-        onChange={this.handleChanged}
+        onChange={this.debouncedChange}
         type="text"
         ref={this.props.name}
         name={this.props.name}

@@ -13,11 +13,31 @@ export default class Basic extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange() {
-    console.log("FOO!");
+  onChange(newValue) {
+    console.log(newValue);
   }
 
   render() {
+    let selectOptions = [
+      { value: "mr", displayValue: "Mr" },
+      { value: "mrs", displayValue: "Mrs" },
+      { value: "ms", displayValue: "Ms" }
+    ]
+
+    let addButton = (
+      <a href="javascript:void(0)"
+        dangerouslySetInnerHTML={{__html: '&plus;'}}
+        className="btn btn-success">
+      </a>
+    );
+
+    let removeButton = (
+      <a href="javascript:void(0)"
+         dangerouslySetInnerHTML={{__html: '&times;'}}
+         className="btn btn-danger pad-left">
+      </a>
+    );
+
     return (
       <Form>
         <Schema ref="schema">
@@ -26,7 +46,7 @@ export default class Basic extends React.Component {
             name="title"
             label="Title"
             inputType="select"
-            options={["Mr", "Mrs", "Ms"]}
+            options={selectOptions}
             containerClass="form-group"
             inputClass="form-control" />
 
@@ -38,7 +58,10 @@ export default class Basic extends React.Component {
             containerClass="form-group"
             inputClass="form-control" />
 
-          <List>
+          <List
+            rowClass="my-row"
+            addButton={addButton}
+            removeButton={removeButton}>
             <Property
               onChange={this.onChange}
               label="Phone"
@@ -69,5 +92,5 @@ export default class Basic extends React.Component {
   }
 }
 
-console.log(document.getElementById('react'));
+require('./css/styles.scss');
 React.render(<Basic />, document.getElementById('react'));

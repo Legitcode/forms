@@ -13,7 +13,9 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx$|\.es6$/, loader: 'babel-loader?stage=0' }
+      { test: /\.jsx$|\.es6$/, loader: 'babel-loader?stage=0' },
+      { test: /\.scss$|\.css$/, loader: 'style-loader!style!css!sass' },
+      { test: /\.(jpe?g|png|gif)$/i, loader: 'url?limit=10000!img?progressive=true' }
     ]
   },
   devtool: "eval-source-map"

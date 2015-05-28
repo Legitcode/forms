@@ -4,10 +4,18 @@ import React from 'react';
 import Collection from './utils/collection';
 
 export default class List extends React.Component {
+  static defaultProps = {
+    removeButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&times;'}}></a> ),
+    addButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&plus;'}}></a> ),
+    rowClass: "row"
+  }
+
   constructor(props) {
     super(props);
 
     this.childCount = 0;
+    this.removeChild = this.removeChild.bind(this);
+    this.addChild = this.addChild.bind(this);
   }
 
   componentDidMount() {
@@ -26,14 +34,25 @@ export default class List extends React.Component {
     this.childCount += 1;
     let removeButton = React.cloneElement(this.props.removeButton, {
       value: this.childCount,
-      onClick: this.removeChild.bind(this)
+      onClick: this.removeChild
+    });
+
+    let children = React.Children.map(this.props.children, (child) => {
+      if (!React.isValidElement(child)) {
+        return child;
+      }
+
+      return React.cloneElement(child, {
+        name: `${child.props.name}-${this.childCount}`
+      });
     });
 
     return (
       <div
         key={`listItem-${this.childCount}`}
+        name={`listItem-${this.childCount}`}
         className={this.props.rowClass}>
-        { this.props.children }
+        { children }
         { removeButton }
       </div>
     )
@@ -68,7 +87,7 @@ export default class List extends React.Component {
 
     if (this.props.onChange) {
       this.props.onChange({
-        children: this.state.children
+        children: this.state.children,
       });
     } else {
       this.setState({
@@ -80,7 +99,7 @@ export default class List extends React.Component {
   render() {
     let addButton = React.cloneElement(this.props.addButton, {
       ref: "addButton",
-      onClick: this.addChild.bind(this)
+      onClick: this.addChild
     });
 
     return (
@@ -90,10 +109,4 @@ export default class List extends React.Component {
       </div>
     )
   }
-}
-
-List.defaultProps = {
-  removeButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&times;'}}></a> ),
-  addButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&plus;'}}></a> ),
-  rowClass: "row"
 }

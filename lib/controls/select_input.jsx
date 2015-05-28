@@ -15,6 +15,18 @@ export default class SelectInput extends React.Component {
 
     this.isOpen = false;
     this.debouncedSearch = debounce(this.getNewValues, 500);
+    this.toggleDropDown = this.toggleDropDown.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener("click", (ev) => {
+      this.closeDropDown();
+    });
+
+    React.findDOMNode(this.refs.selected).addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      this.openDropDown();
+    })
   }
 
   getNewValues() {
@@ -29,6 +41,11 @@ export default class SelectInput extends React.Component {
 
   openDropDown() {
     this.isOpen = true;
+    this.setDropDownState();
+  }
+
+  closeDropDown() {
+    this.isOpen = false;
     this.setDropDownState();
   }
 
@@ -51,7 +68,10 @@ export default class SelectInput extends React.Component {
   }
 
   updateStore() {
-    this.props.stateAction(this.value());
+    let newState = {};
+    newState[this.props.name] = this.value();
+
+    this.props.onChange(newState);
   }
 
   value() {
@@ -74,7 +94,7 @@ export default class SelectInput extends React.Component {
           className={this.state.inputState}
           defaultValue={this.state.selected}
           placeholder={this.props.placeholder}
-          onClick={this.toggleDropDown.bind(this)}
+          onClick={this.toggleDropDown}
           onChange={this.debouncedSearch.bind(this)} />
 
       :
@@ -84,11 +104,11 @@ export default class SelectInput extends React.Component {
           className={this.state.inputState}
           defaultValue={this.state.selected}
           placeholder={this.props.placeholder}
-          onClick={this.toggleDropDown.bind(this)}
+          onClick={this.toggleDropDown}
           readOnly />
 
     return (
-      <div className="react-select">
+      <div className="select">
         <input type="hidden" ref="valueInput" />
         { input }
         <div className={this.state.showOptions}>

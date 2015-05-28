@@ -1,12 +1,14 @@
 "use strict";
 
 import React from 'react';
+import debounce from 'debounce';
 
 export default class NumberInput extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleChanged = this.handleChanged.bind(this);
+    this.debouncedChange = debounce(this.handleChanged, 500);
   }
 
   value() {
@@ -23,10 +25,11 @@ export default class NumberInput extends React.Component {
   render() {
     return (
       <input
+        className={this.props.classes}
         type="number"
         ref={this.props.name}
         name={this.props.name}
-        onChange={this.handleChanged}
+        onChange={this.debouncedChange}
         defaultValue={this.props.value} />
     )
   }
