@@ -50,6 +50,7 @@ export default class Basic extends React.Component {
             name="title"
             label="Title"
             inputType="select"
+            selected="Mr"
             options={selectOptions}
             containerClass="form-group"
             inputClass="form-control" />

@@ -66,7 +66,8 @@ export default class Property extends React.Component {
       defaultValue: this.props.value,
       classes: this.props.inputClass,
       onChange: this.onChange,
-      options: this.props.options
+      options: this.props.options,
+      selected: this.props.selected
     }
   }
 
