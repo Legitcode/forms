@@ -23,9 +23,9 @@ export default class Basic extends React.Component {
 
   render() {
     let selectOptions = [
-      { value: "mr", displayValue: "Mr" },
-      { value: "mrs", displayValue: "Mrs" },
-      { value: "ms", displayValue: "Ms" }
+      { value: "1", displayValue: "Mr" },
+      { value: "2", displayValue: "Mrs" },
+      { value: "3", displayValue: "Ms" }
     ]
 
     let addButton = (

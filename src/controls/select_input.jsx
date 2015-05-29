@@ -76,6 +76,7 @@ export default class SelectInput extends React.Component {
   serialize() {
     let formValue = {}
     formValue[this.props.name] = this.value();
+    formValue["displayValue"] = this.displayValue();
     return formValue;
   }
 
@@ -84,6 +85,10 @@ export default class SelectInput extends React.Component {
   }
 
   value() {
+    return React.findDOMNode(this.refs.valueInput).value;
+  }
+
+  displayValue() {
     return React.findDOMNode(this.refs.selected).value;
   }
 
