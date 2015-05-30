@@ -4,6 +4,8 @@ import React from 'react';
 import TextInput from './controls/text_input';
 import NumberInput from './controls/number_input';
 import SelectInput from './controls/select_input';
+import EmailInput from './controls/email_input';
+import PhoneInput from './controls/phone_input';
 import Collection from './utils/collection';
 
 export default class Property extends React.Component {
@@ -28,7 +30,9 @@ export default class Property extends React.Component {
     this.validInputTypes = {
       "text": TextInput,
       "number": NumberInput,
-      "select": SelectInput
+      "select": SelectInput,
+      "email": EmailInput,
+      "phone": PhoneInput
     };
 
     this.onChange = this.onChange.bind(this);

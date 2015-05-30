@@ -73,7 +73,7 @@ export default class Basic extends React.Component {
               onChange={this.onChange}
               label="Phone"
               name="phone"
-              inputType="text"
+              inputType="phone"
               containerClass="form-group"
               inputClass="form-control" />
           </List>
@@ -91,6 +91,14 @@ export default class Basic extends React.Component {
             label="Age"
             name="age"
             inputType="number"
+            containerClass="form-group"
+            inputClass="form-control" />
+
+          <Property
+            onChange={this.onChange}
+            label="Email"
+            name="email"
+            inputType="email"
             containerClass="form-group"
             inputClass="form-control" />
         </Schema>
