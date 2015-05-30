@@ -75,9 +75,9 @@ export default class Property extends React.Component {
     }
   }
 
-  onChange(value) {
+  onChange(ev, value) {
     this.valid();
-    this.props.onChange(value);
+    this.props.onChange(ev, value);
   }
 
   inputType() {

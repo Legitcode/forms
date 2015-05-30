@@ -21,8 +21,8 @@ export default class NumberInput extends React.Component {
     return formValue;
   }
 
-  handleChanged() {
-    this.props.onChange(this.serialize());
+  handleChanged(ev) {
+    this.props.onChange(ev, this.serialize());
   }
 
   render() {
