@@ -1,28 +1,12 @@
 "use strict";
 
+import BaseInput from './base_input';
 import React from 'react';
-import debounce from 'debounce';
+import _ from 'underscore';
 
-export default class TextInput extends React.Component {
+export default class TextInput extends BaseInput {
   constructor(props) {
     super(props);
-
-    this.handleChanged = this.handleChanged.bind(this);
-    this.debouncedChange = debounce(this.handleChanged, 500);
-  }
-
-  value() {
-    return React.findDOMNode(this.refs[this.props.name]).value;
-  }
-
-  serialize() {
-    let formValue = {}
-    formValue[this.props.name] = this.value();
-    return formValue;
-  }
-
-  handleChanged(ev) {
-    this.props.onChange(ev, this.serialize());
   }
 
   render() {
@@ -30,10 +14,12 @@ export default class TextInput extends React.Component {
       <input
         className={this.props.classes}
         onChange={this.debouncedChange}
+        onBlur={this.onBlur}
         type="text"
         ref={this.props.name}
         name={this.props.name}
-        defaultValue={this.props.defaultValue} />
+        defaultValue={this.props.defaultValue}
+        placeholder={this.props.placeholder} />
     )
   }
 }

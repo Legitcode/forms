@@ -67,3 +67,8 @@
 .my-row .form-group {
   width: 80%;
   display: inline-block; }
+
+div.error {
+  padding: 5px 10px;
+  color: red;
+  font-size: 0.9em; }

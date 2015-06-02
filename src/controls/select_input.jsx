@@ -2,37 +2,52 @@
 
 import React from 'react';
 import debounce from 'debounce';
+import _ from 'underscore';
 
 export default class SelectInput extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selected: this.props.selected,
-      showOptions: "option-box",
-      inputState: "select-face"
-    };
-
-    this.isOpen = false;
+    this.isOpen = this.props.isOpen;
     this.debouncedSearch = debounce(this.getNewValues, 500);
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    let stateChanged = false;
+
+    Object.keys(this.props).forEach((key) => {
+      if (this.props[key] != nextProps[key]) {
+        stateChanged = true;
+      }
+    });
+
+    return stateChanged;
   }
 
   componentDidMount() {
     document.addEventListener("click", (ev) => {
-      this.closeDropDown();
+      ev.stopPropagation();
+      this.closeDropDown(ev);
     });
 
     React.findDOMNode(this.refs.selected).addEventListener("click", (ev) => {
       ev.stopPropagation();
-      this.toggleDropDown();
+      this.toggleDropDown(ev);
     });
 
     React.findDOMNode(this.refs.arrow).addEventListener("click", (ev) => {
       ev.stopPropagation();
-      this.toggleDropDown();
+      this.toggleDropDown(ev);
     });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click");
+    React.findDOMNode(this.refs.selected).removeEventListener("click");
+    React.findDOMNode(this.refs.arrow).removeEventListener("click");
   }
 
   getNewValues() {
@@ -40,26 +55,19 @@ export default class SelectInput extends React.Component {
     this.props.onChange(React.findDOMNode(this.refs.selected).value);
   }
 
-  toggleDropDown() {
+  toggleDropDown(ev) {
     this.isOpen = !this.isOpen;
-    this.setDropDownState();
+    this.onChange(ev, this.serialize());
   }
 
-  openDropDown() {
+  openDropDown(ev) {
     this.isOpen = true;
-    this.setDropDownState();
+    this.onChange(ev, this.serialize());
   }
 
-  closeDropDown() {
+  closeDropDown(ev) {
     this.isOpen = false;
-    this.setDropDownState();
-  }
-
-  setDropDownState() {
-    this.setState({
-      showOptions: this.isOpen ? "option-box open" : "option-box",
-      inputState: this.isOpen ? "select-face open" : "select-face"
-    });
+    this.onChange(ev, this.serialize());
   }
 
   changeSelected(event) {
@@ -69,30 +77,49 @@ export default class SelectInput extends React.Component {
 
     React.findDOMNode(this.refs.selected).value = selectedDisplay;
     React.findDOMNode(this.refs.valueInput).value = selectedValue;
-    this.toggleDropDown();
-    this.handleChanged();
+    this.toggleDropDown(event);
   }
 
   serialize() {
     let formValue = {}
-    formValue[this.props.name] = this.value();
+    formValue["value"] = this.value();
     formValue["displayValue"] = this.displayValue();
+    formValue["isOpen"] = this.isOpen;
     return formValue;
   }
 
-  handleChanged() {
-    this.props.onChange(this.serialize());
+  onChange(ev) {
+    this.props.onChange(ev, this.serialize());
   }
 
   value() {
-    return React.findDOMNode(this.refs.valueInput).value;
+    if (this.refs.valueInput) {
+      return React.findDOMNode(this.refs.valueInput).value;
+    } else {
+      return null;
+    }
   }
 
   displayValue() {
-    return React.findDOMNode(this.refs.selected).value;
+    if (this.refs.selected) {
+      return React.findDOMNode(this.refs.selected).value;
+    } else {
+      return null;
+    }
   }
 
   render() {
+    let showOptions = null,
+        inputState = null;
+
+    if (this.props.isOpen) {
+      showOptions = "option-box open";
+      inputState = "select-face open";
+    } else {
+      showOptions = "option-box";
+      inputState = "select-face";
+    }
+
     let options = this.props.options.map((option)=> {
       return (
         <a href={option.url}
@@ -105,12 +132,16 @@ export default class SelectInput extends React.Component {
       )
     });
 
+    let inputValue = _.find(this.props.options, (option) => {
+      return option.value == this.props.selected;
+    }).displayValue;
+
     let input = this.props.editable ?
         <input
           ref="selected"
           type="text"
-          className={this.state.inputState}
-          defaultValue={this.state.selected}
+          className={inputState}
+          defaultValue={inputValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           onChange={this.debouncedSearch.bind(this)} />
@@ -119,8 +150,8 @@ export default class SelectInput extends React.Component {
         <input
           ref="selected"
           type="text"
-          className={this.state.inputState}
-          defaultValue={this.state.selected}
+          className={inputState}
+          defaultValue={inputValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           readOnly />
@@ -128,9 +159,9 @@ export default class SelectInput extends React.Component {
     return (
       <div className="select">
         <span className="arrow" ref="arrow"></span>
-        <input type="hidden" ref="valueInput" />
+        <input type="hidden" ref="valueInput" value={this.props.selected}/>
         { input }
-        <div className={this.state.showOptions}>
+        <div className={showOptions}>
           { options }
         </div>
       </div>

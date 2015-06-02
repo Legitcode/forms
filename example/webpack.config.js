@@ -7,6 +7,11 @@ module.exports = {
       'webpack-dev-server/client?http://localhost:8080/',
       'webpack/hot/only-dev-server',
       './example/basic.jsx'
+    ],
+    'auto-generate': [
+      'webpack-dev-server/client?http://localhost:8080/',
+      'webpack/hot/only-dev-server',
+      './example/auto_generate.jsx'
     ]
   },
   output: {

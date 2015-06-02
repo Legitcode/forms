@@ -1,33 +1,42 @@
 "use strict";
 
 import React from 'react';
+import _ from 'underscore';
+import underscoreDeepExtend from 'underscore-deep-extend';
 import { Form, Schema, List, Property } from '../src/forms';
+
+_.mixin({deepExtend: underscoreDeepExtend(_)});
 
 export default class Basic extends React.Component {
   constructor(props) {
     super(props);
 
+    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.onListChange = this.onListChange.bind(this);
+
+    this.state = {};
   }
 
-  onChange(newValue) {
-    console.log(newValue);
+  onChange(ev, attributes) {
+    this.setState(attributes);
   }
 
-  submitForm() {
-    if (this.refs.schema.validate()) {
-      console.log(this.refs.schema.serialize());
-    }
+  onListChange(ev, attributes) {
+    this.setState({
+      listItems: attributes
+    });
+  };
+
+  onBlur(ev, attributes) {
+    this.setState(attributes);
+  }
+
+  onSubmit(formValues) {
+    console.log(formValues);
   }
 
   render() {
-    let selectOptions = [
-      { value: "1", displayValue: "Mr" },
-      { value: "2", displayValue: "Mrs" },
-      { value: "3", displayValue: "Ms" }
-    ]
-
     let addButton = (
       <a href="javascript:void(0)"
         dangerouslySetInnerHTML={{__html: '&plus;'}}
@@ -42,68 +51,63 @@ export default class Basic extends React.Component {
       </a>
     );
 
+    let submitButton = (
+      <button className="btn btn-primary">Submit</button>
+    );
+
     return (
-      <Form>
+      <Form onChange={this.onChange}
+            onBlur={this.onBlur}
+            onSubmit={this.onSubmit}
+            submitButton={submitButton}>
         <Schema ref="schema">
           <Property
-            onChange={this.onChange}
+            inputType="select"
             name="title"
             label="Title"
-            inputType="select"
-            selected="Mr"
-            options={selectOptions}
-            containerClass="form-group"
-            inputClass="form-control" />
+            onChange={this.onChange}
+            options={[
+              { value: "1", displayValue: "Mr" },
+              { value: "2", displayValue: "Mrs" }
+            ]}
+            value="1"
+            isOpen={this.state.title ? this.state.title.isOpen : false}
+          />
 
           <Property
-            onChange={this.onChange}
-            label="Name"
-            name="name"
             inputType="text"
+            name="name"
+            label="Name"
+            onBlur={this.onBlur}
+            onChange={this.onChange}
+            placeholder="John Doe"
             containerClass="form-group"
             inputClass="form-control"
-            validation={ function(v) { return v.length > 0; } }
-            errorMessage="Name is required" />
+            validation={function(value) { return value.length > 0 }}
+            errorMessage="Name is required"
+            invalid={this.state.name ? this.state.name.invalid : false}
+          />
 
           <List
+            name="phone"
             rowClass="my-row"
             addButton={addButton}
-            removeButton={removeButton}>
+            removeButton={removeButton}
+            onListChange={this.onListChange}
+            listItems={this.state.listItems}>
+
             <Property
-              onChange={this.onChange}
-              label="Phone"
+              inputType="Phone"
               name="phone"
-              inputType="phone"
+              label="Phone Number"
+              onBlur={this.onBlur}
+              onChange={this.onChange}
+              placeholder="555-555-5555"
+              inputClass="form-control"
               containerClass="form-group"
-              inputClass="form-control" />
+            />
           </List>
-
-          <Property
-            onChange={this.onChange}
-            label="Address"
-            name="address"
-            inputType="text"
-            containerClass="form-group"
-            inputClass="form-control" />
-
-          <Property
-            onChange={this.onChange}
-            label="Age"
-            name="age"
-            inputType="number"
-            containerClass="form-group"
-            inputClass="form-control" />
-
-          <Property
-            onChange={this.onChange}
-            label="Email"
-            name="email"
-            inputType="email"
-            containerClass="form-group"
-            inputClass="form-control" />
         </Schema>
-
-        <button className="btn btn-primary" onClick={this.submitForm}>Submit</button>
       </Form>
     )
   }

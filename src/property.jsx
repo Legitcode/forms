@@ -6,12 +6,15 @@ import NumberInput from './controls/number_input';
 import SelectInput from './controls/select_input';
 import EmailInput from './controls/email_input';
 import PhoneInput from './controls/phone_input';
-import Collection from './utils/collection';
+import _ from 'underscore';
 
 export default class Property extends React.Component {
   static defaultProps = {
-    onChange: function(props) {
-      console.log("On change was not defined for properties:" + JSON.stringify(props));
+    onBlur: function(ev, props) {
+      console.log(props);
+    },
+    onChange: function(ev, props) {
+      console.log(props);
     },
     inputType: "text",
     options: [],
@@ -22,20 +25,67 @@ export default class Property extends React.Component {
     value: ""
   }
 
+  static ValidInputTypes = {
+    "text": TextInput,
+    "number": NumberInput,
+    "select": SelectInput,
+    "email": EmailInput,
+    "phone": PhoneInput
+  }
+
   constructor(props) {
     super(props);
 
-    this.state = { error: null, errorState: 'none' };
+    this.onBlur = this.onBlur.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
 
-    this.validInputTypes = {
-      "text": TextInput,
-      "number": NumberInput,
-      "select": SelectInput,
-      "email": EmailInput,
-      "phone": PhoneInput
+  shouldComponentUpdate(nextProps, nextState) {
+    let stateChanged = false;
+
+    Object.keys(this.props).forEach((key) => {
+      if (this.props[key] != nextProps[key]) {
+        stateChanged = true;
+      }
+    });
+
+    return stateChanged;
+  }
+
+  onBlur(ev, value) {
+    let isValid = this.valid(),
+        values = this.serialize(),
+        newValue = {};
+
+    newValue[this.props.name] = {
+      value: values.value,
+      displayValue: values.displayValue,
+      invalid: !isValid,
+      isOpen: values.isOpen
     };
 
-    this.onChange = this.onChange.bind(this);
+    this.props.onBlur(ev, newValue);
+  }
+
+  onChange(ev, value) {
+    if (this.isSelect()) {
+      let isValid = this.valid(),
+          values = this.serialize(),
+          newValue = {};
+
+      newValue[this.props.name] = {
+        value: values.value,
+        displayValue: values.displayValue,
+        invalid: !isValid,
+        isOpen: values.isOpen
+      };
+
+      this.props.onChange(ev, newValue);
+    }
+  }
+
+  addErrors() {
+    this.onBlur();
   }
 
   value() {
@@ -46,46 +96,36 @@ export default class Property extends React.Component {
     return this.refs[this.props.name].serialize();
   }
 
+  isSelect() {
+    return this.props.inputType == "select";
+  }
+
   valid() {
     if(!this.props.validation) return true;
-
-    if(this.props.validation(this.value())) {
-      this.setState({
-        errorState: 'none'
-      });
-      return true;
-    } else {
-      this.setState({
-        error: this.props.errorMessage,
-        errorState: 'block'
-      });
-      return false;
-    }
+    return this.props.validation(this.value());
   }
 
   inputProps() {
     return {
       ref: this.props.name,
       name: this.props.name,
-      defaultValue: this.props.value,
+      defaultValue: this.props.value || this.props.defaultValue,
       classes: this.props.inputClass,
+      onBlur: this.onBlur,
       onChange: this.onChange,
       options: this.props.options,
-      selected: this.props.selected
+      selected: this.props.value,
+      placeholder: this.props.placeholder,
+      isOpen: this.props.isOpen
     }
   }
 
-  onChange(ev, value) {
-    this.valid();
-    this.props.onChange(ev, value);
-  }
-
   inputType() {
-    let types = Object.keys(this.validInputTypes);
+    let types = Object.keys(Property.ValidInputTypes);
 
-    if (Collection.include(types, this.props.inputType)) {
+    if (_.includes(types, this.props.inputType)) {
       return React.createElement(
-        this.validInputTypes[this.props.inputType],
+        Property.ValidInputTypes[this.props.inputType],
         this.inputProps()
       );
     } else {
@@ -94,11 +134,19 @@ export default class Property extends React.Component {
   }
 
   render() {
+    let errorState = null;
+
+    if (this.props.invalid) {
+      errorState = 'block';
+    } else {
+      errorState = 'none';
+    }
+
     return (
       <div className={this.props.containerClass} key={this.props.value}>
         <label>{this.props.label}</label>
         { this.inputType() }
-        <div className="error" style={{display: this.state.errorState}}>{this.state.error}</div>
+        <div className="error" style={{display: errorState}}>{this.props.errorMessage}</div>
       </div>
     )
   }

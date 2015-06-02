@@ -68,11 +68,11 @@ describe('Property', function() {
       <Property
         inputType="text"
         name="foo"
-        validation={function(v) { return v > 0 }}
+        validation={function(v) { return v >= 0 }}
         onChange={function(v) { return v; }}
-        value={0} />
+        value="0" />
     );
 
-    expect(property.serialize()['foo']).toEqual('0');
+    expect(property.serialize().value).toEqual('0');
   });
 });

@@ -2,10 +2,21 @@
 
 import React from 'react';
 import ListItem from './list/list_item';
-import Collection from './utils/collection';
+import Property from './property';
+import _ from 'underscore';
+import Obj from './utils/obj';
 
 export default class List extends React.Component {
   static defaultProps = {
+    onChange: function(ev, value) {
+      console.log(value);
+    },
+    onBlur: function(ev, value) {
+      console.log(value);
+    },
+    onListChange: function(ev, value) {
+      console.log(value);
+    },
     removeButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&times;'}}></a> ),
     addButton: ( <a href="javascript:void(0)" dangerouslySetInnerHTML={{__html: '&plus;'}}></a> ),
     rowClass: "row"
@@ -14,29 +25,66 @@ export default class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this.childCount = 0;
-    this.removeChild = this.removeChild.bind(this);
-    this.addChild = this.addChild.bind(this);
-  }
+    if (this.props.listItems) {
+      this.childCount = Object.keys(this.props.listItems).length;
+    } else {
+      this.childCount = 0;
+    }
 
-  componentDidMount() {
-    if (this.props.onChange) {
-      this.props.onChange({
-        children: [this.createChild()]
+    if (!this.props.formAttrs && this.props.autoGenerate) {
+      console.log("Default form attributes were not given");
+    } else if (!this.props.formAttrs) {
+      this.formAttrs = {};
+
+      let childrenMap = React.Children.forEach(this.props.children, (child) => {
+        this.formAttrs[child.props.name] = {
+          type: child.props.inputType,
+          onChange: child.props.onChange,
+          onBlur: child.props.onBlur,
+          name: child.props.name,
+          label: child.props.label,
+          validation: child.props.validation,
+          errorMessage: child.props.errorMessage,
+          containerClass: child.props.containerClass,
+          inputClass: child.props.inputClass,
+          selected: child.props.selected,
+          options: child.props.selected,
+          defaultValue: child.props.defaultValue,
+          value: child.props.value,
+          placeholder: child.props.placeholder,
+          invalid: child.props.invalid,
+          isOpen: child.props.isOpen
+        }
       });
     } else {
-      this.setState({
-        children: [this.createChild()]
-      });
+      this.formAttrs = this.props.formAttrs;
     }
+
+    this.removeChild = this.removeChild.bind(this);
+    this.addChild = this.addChild.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    let stateChanged = false;
+
+    Object.keys(this.props).forEach((key) => {
+      if (this.props[key] != nextProps[key]) {
+        stateChanged = true;
+      }
+    });
+
+    return stateChanged;
   }
 
   valid() {
     let valid = true;
 
-    Object.keys(this.refs).forEach((refKey)=> {
+    Object.keys(this.refs).forEach((refKey) => {
       if (refKey != "addButton") {
         if (!this.refs[refKey].valid()) {
+          this.refs[refKey].addErrors();
           valid = false;
         }
       }
@@ -45,75 +93,105 @@ export default class List extends React.Component {
     return valid;
   }
 
-  serialize() {
-    return Object.keys(this.refs).map((refKey)=> {
+  onChange(ev, value) {
+    this.props.onListChange(ev, this.serialize(true), this.props.listKey);
+  }
+
+  onBlur(ev, value) {
+    this.props.onListChange(ev, this.serialize(true), this.props.listKey);
+  }
+
+  serialize(withAttrs) {
+    let currentObjects = {};
+
+    let ary = Object.keys(this.refs).map((refKey) => {
       if (refKey.match(/-[0-9]{1,100}/)) {
         return this.refs[refKey].serialize();
       }
     });
+
+    ary = _.compact(ary);
+
+    if (_.size(ary) > 0) {
+      currentObjects = Obj.clone(this.props.listItems);
+
+      Object.keys(currentObjects).forEach((values, index) => {
+        Object.keys(ary[index]).forEach((key) => {
+          currentObjects[values][key] = ary[index][key]
+
+          if (withAttrs) {
+            let mergeableAttrs = {};
+            mergeableAttrs[key] = this.formAttrs[`${key.split("-")[0]}`];
+
+            currentObjects[values] = _.extend(currentObjects[values], mergeableAttrs);
+          }
+        });
+      });
+    }
+
+    return currentObjects;
   }
 
   createChild() {
+    let currentObjects = {},
+        newObject = {};
+
+    if (this.props.listItems) {
+      currentObjects = Obj.clone(this.props.listItems);
+    }
+
+    newObject = Obj.clone(this.formAttrs);
+
+    Object.keys(newObject).forEach((key) => {
+      newObject[`${key}-${this.childCount}`] = Obj.clone(this.formAttrs)[key];
+      delete newObject[key];
+    });
+
+    currentObjects[this.childCount] = newObject;
     this.childCount += 1;
-    let removeButton = React.cloneElement(this.props.removeButton, {
-      value: this.childCount,
-      onClick: this.removeChild
-    });
-
-    let children = React.Children.map(this.props.children, (child) => {
-      if (!React.isValidElement(child)) {
-        return child;
-      }
-
-      return React.cloneElement(child, {
-        name: `${child.props.name}-${this.childCount}`
-      });
-    });
-
-    return React.createElement(ListItem, {
-      name: `listItem-${this.childCount}`,
-      className: this.props.rowClass,
-      children: children,
-      removeButton: removeButton
-    });
+    return currentObjects;
   }
 
-  addChild() {
-    if (this.props.onChange) {
-      this.props.onChange({
-        children: [...this.state.children, this.createChild()]
-      });
-    } else {
-      this.setState({
-        children: [...this.state.children, this.createChild()]
+  addChild(ev) {
+    this.props.onListChange("add", this.createChild(), this.props.listKey);
+  }
+
+  removeChild(ev, listItem) {
+    let object = _.find(Object.keys(this.props.listItems), (item) => {
+      return item == parseInt(listItem.split("-")[1]);
+    });
+
+    let currentObjects = _.clone(this.props.listItems);
+    delete currentObjects[object];
+
+    this.props.onListChange("deleteListItem", currentObjects, this.props.listKey);
+  }
+
+  generateChildren() {
+    let listItems = this.props.listItems,
+        children = null;
+
+    if (listItems) {
+      children = Object.keys(listItems).map((key) => {
+        return React.createElement(ListItem, {
+          key: `listItem-${key}`,
+          ref: `listItem-${key}`,
+          name: `listItem-${key}`,
+          itemIndex: key,
+          properties: listItems[key],
+          autoGenerate: true,
+          removeButton: this.props.removeButton,
+          containerClass: this.props.containerClass,
+          inputClass: this.props.inputClass,
+          rowClass: this.props.rowClass,
+          removeChild: this.removeChild,
+          onChange: this.onChange,
+          onBlur: this.onBlur
+        });
       });
     }
-  }
 
-  findChild(nodeValue) {
-    let buttons = this.state.children.map((item)=> {
-      return item.props.removeButton.props.value;
-    });
-
-    return Collection.find(buttons, nodeValue);
-  }
-
-  removeChild(ev) {
-    ev.preventDefault();
-    let nodeValue = parseInt(ev.currentTarget.attributes.value.value);
-    let idx = this.findChild(nodeValue);
-
-    this.state.children.splice(idx, 1);
-
-    if (this.props.onChange) {
-      this.props.onChange({
-        children: this.state.children,
-      });
-    } else {
-      this.setState({
-        children: this.state.children
-      });
-    }
+    return children;
   }
 
   render() {
@@ -122,19 +200,7 @@ export default class List extends React.Component {
       onClick: this.addChild
     });
 
-    let children = null;
-
-    if (this.state) {
-      children = React.Children.map(this.state.children, (child) => {
-        if (!React.isValidElement(child)) {
-          return child;
-        }
-
-        return React.cloneElement(child, {
-          ref: `${child.props.name}-${this.childCount}`
-        });
-      });
-    }
+    let children = this.generateChildren();
 
     return (
       <div className={this.props.classes}>
