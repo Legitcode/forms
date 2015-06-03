@@ -1,7 +1,6 @@
 "use strict";
 
 import React from 'react';
-import debounce from 'debounce';
 import _ from 'underscore';
 
 export default class SelectInput extends React.Component {
