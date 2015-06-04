@@ -30,7 +30,8 @@ export default class Property extends React.Component {
     "number": NumberInput,
     "select": SelectInput,
     "email": EmailInput,
-    "phone": PhoneInput
+    "phone": PhoneInput,
+    "password": PasswordInput
   }
 
   constructor(props) {

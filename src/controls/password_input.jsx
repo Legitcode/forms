@@ -4,7 +4,7 @@ import BaseInput from './base_input';
 import React from 'react';
 import _ from 'underscore';
 
-export default class NumberInput extends BaseInput {
+export default class PasswordInput extends BaseInput {
   constructor(props) {
     super(props);
   }
