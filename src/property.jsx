@@ -6,6 +6,7 @@ import NumberInput from './controls/number_input';
 import SelectInput from './controls/select_input';
 import EmailInput from './controls/email_input';
 import PhoneInput from './controls/phone_input';
+import PasswordInput from './controls/password_input';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
