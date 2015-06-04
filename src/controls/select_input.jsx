@@ -8,7 +8,7 @@ export default class SelectInput extends React.Component {
     super(props);
 
     this.isOpen = this.props.isOpen;
-    this.debouncedSearch = debounce(this.getNewValues, 500);
+    this.debouncedSearch = _.debounce(this.getNewValues, 500);
     this.toggleDropDown = this.toggleDropDown.bind(this);
     this.changeSelected = this.changeSelected.bind(this);
     this.onChange = this.onChange.bind(this);

@@ -98,7 +98,7 @@ export default class Form extends React.Component {
     return (
       <div className={this.props.classes}>
         { children }
-        { submitButton }
+        { this.props.noSubmit ? null : submitButton }
       </div>
     )
   }

@@ -144,6 +144,7 @@ export default class AutoGenerate extends React.Component {
         onChange={this.onChange}
         onSubmit={this.onSubmit}
         submitButton={submitButton}
+        noSubmit={true}
       />
     )
   }
