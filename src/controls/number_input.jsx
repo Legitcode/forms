@@ -18,7 +18,8 @@ export default class NumberInput extends BaseInput {
         name={this.props.name}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
-        defaultValue={this.props.defaultValue} />
+        defaultValue={this.props.defaultValue}
+        placeholder={this.props.placeholder} />
     )
   }
 }

@@ -18,7 +18,8 @@ export default class TextInput extends BaseInput {
         type="email"
         ref={this.props.name}
         name={this.props.name}
-        defaultValue={this.props.defaultValue} />
+        defaultValue={this.props.defaultValue}
+        placeholder={this.props.placeholder} />
     )
   }
 }
