@@ -62,6 +62,12 @@ export default class Form extends React.Component {
     this.props.onChange(ev, mergedProps);
   }
 
+  serialize() {
+    if (this.refs.schema.validate()) {
+      return this.refs.schema.serialize();
+    }
+  }
+
   submitForm() {
     if (this.refs.schema.validate()) {
       this.props.onSubmit(this.refs.schema.serialize());
