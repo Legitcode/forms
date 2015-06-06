@@ -11,6 +11,10 @@ var defaultData = {
   containerClass: "form-group",
   inputClass: "form-control",
   formAttrs: {
+    id: {
+      type: "hidden",
+      value: "1"
+    },
     title: {
       label: "Title",
       type: "select",

@@ -7,6 +7,7 @@ import SelectInput from './controls/select_input';
 import EmailInput from './controls/email_input';
 import PhoneInput from './controls/phone_input';
 import PasswordInput from './controls/password_input';
+import HiddenInput from './controls/hidden_input';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -136,8 +137,11 @@ export default class Property extends React.Component {
     }
   }
 
+
+
   render() {
-    let errorState = null;
+    let errorState = null,
+        label = null;
 
     if (this.props.invalid) {
       errorState = 'block';
@@ -145,9 +149,13 @@ export default class Property extends React.Component {
       errorState = 'none';
     }
 
+    if (this.props.inputType != "hidden") {
+      label = <label>{this.props.label}</label>
+    }
+
     return (
       <div className={this.props.containerClass} key={this.props.value}>
-        <label>{this.props.label}</label>
+        { label }
         { this.inputType() }
         <div className="error" style={{display: errorState}}>{this.props.errorMessage}</div>
       </div>
