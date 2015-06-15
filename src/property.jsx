@@ -8,6 +8,7 @@ import EmailInput from './controls/email_input';
 import PhoneInput from './controls/phone_input';
 import PasswordInput from './controls/password_input';
 import HiddenInput from './controls/hidden_input';
+import TextAreaInput from './controls/textarea_input';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -34,7 +35,8 @@ export default class Property extends React.Component {
     "email": EmailInput,
     "phone": PhoneInput,
     "password": PasswordInput,
-    "hidden": HiddenInput
+    "hidden": HiddenInput,
+    "textarea": TextAreaInput
   }
 
   constructor(props) {

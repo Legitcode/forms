@@ -47,21 +47,7 @@ var defaultData = {
           type: "text",
           value: ""
         }
-      },
-      // listItems: {
-      //   0: {
-      //     'phone-0': {
-      //       label: "Phone Number",
-      //       type: "phone",
-      //       value: ""
-      //     },
-      //     'numberType-0': {
-      //       label: "Number Type",
-      //       type: "text",
-      //       value: ""
-      //     }
-      //   }
-      // }
+      }
     },
     'list-1': {
       rowClass: "my-row clearfix",
@@ -92,6 +78,10 @@ var defaultData = {
       errorMessage: "Must be a valid email address",
       validation: "value.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9]+$/i)",
       value: ""
+    },
+    notes: {
+      label: "Notes",
+      type: "textarea"
     }
   }
 }
