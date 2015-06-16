@@ -65,8 +65,10 @@ export default class SelectInput extends React.Component {
   }
 
   closeDropDown(ev) {
-    this.isOpen = false;
-    this.onChange(ev, this.serialize());
+    if (this.isOpen) {
+      this.isOpen = false;
+      this.onChange(ev, this.serialize());
+    }
   }
 
   changeSelected(event) {

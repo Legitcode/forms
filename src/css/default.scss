@@ -3,6 +3,10 @@ $blue-box-shadow: rgba(44, 119, 176, 0.3);
 $opaque-white: rgba(255, 255, 255, 0.95);
 $lightgrey: #fcfcfc;
 
+input[type='checkbox'] {
+  margin-right: 12px;
+}
+
 .select {
   width: 100%;
   position: relative;

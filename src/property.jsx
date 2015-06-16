@@ -9,6 +9,7 @@ import PhoneInput from './controls/phone_input';
 import PasswordInput from './controls/password_input';
 import HiddenInput from './controls/hidden_input';
 import TextAreaInput from './controls/textarea_input';
+import CheckboxInput from './controls/checkbox_input';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -36,7 +37,8 @@ export default class Property extends React.Component {
     "phone": PhoneInput,
     "password": PasswordInput,
     "hidden": HiddenInput,
-    "textarea": TextAreaInput
+    "textarea": TextAreaInput,
+    "checkbox": CheckboxInput
   }
 
   constructor(props) {
@@ -95,11 +97,15 @@ export default class Property extends React.Component {
   }
 
   value() {
-    return this.refs[this.props.name].value();
+    if (this.refs[this.props.name]) {
+      return this.refs[this.props.name].value();
+    }
   }
 
   serialize() {
-    return this.refs[this.props.name].serialize();
+    if (this.refs[this.props.name]) {
+      return this.refs[this.props.name].serialize();
+    }
   }
 
   isSelect() {
@@ -122,7 +128,8 @@ export default class Property extends React.Component {
       options: this.props.options,
       selected: this.props.value,
       placeholder: this.props.placeholder,
-      isOpen: this.props.isOpen
+      isOpen: this.props.isOpen,
+      label: this.props.label
     }
   }
 
@@ -139,8 +146,6 @@ export default class Property extends React.Component {
     }
   }
 
-
-
   render() {
     let errorState = null,
         label = null;
@@ -151,7 +156,7 @@ export default class Property extends React.Component {
       errorState = 'none';
     }
 
-    if (this.props.inputType != "hidden") {
+    if (!_.contains(["hidden", "checkbox"], this.props.inputType)) {
       label = <label>{this.props.label}</label>
     }
 

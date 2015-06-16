@@ -1,3 +1,6 @@
+input[type='checkbox'] {
+  margin-right: 12px; }
+
 .select {
   width: 100%;
   position: relative; }

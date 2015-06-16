@@ -82,6 +82,12 @@ var defaultData = {
     notes: {
       label: "Notes",
       type: "textarea"
+    },
+    valid: {
+      label: "Valid",
+      type: "checkbox",
+      inputClass: "foo",
+      value: true
     }
   }
 }
@@ -110,6 +116,7 @@ export default class AutoGenerate extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     let addButton = (
       <a href="javascript:void(0)"
         dangerouslySetInnerHTML={{__html: '&plus;'}}
@@ -138,7 +145,6 @@ export default class AutoGenerate extends React.Component {
         onChange={this.onChange}
         onSubmit={this.onSubmit}
         submitButton={submitButton}
-        noSubmit={true}
       />
     )
   }
