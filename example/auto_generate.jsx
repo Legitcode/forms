@@ -23,7 +23,7 @@ var defaultData = {
         { value: "2", displayValue: "Mrs" },
         { value: "3", displayValue: "Ms" }
       ],
-      value: "3",
+      value: null,
       placeholder: "Select one..."
     },
     name: {
@@ -42,8 +42,8 @@ var defaultData = {
           type: "phone",
           value: ""
         },
-        numberType: {
-          label: "Number Type",
+        number: {
+          label: "Number",
           type: "text",
           value: ""
         }

@@ -135,7 +135,9 @@ export default class SelectInput extends React.Component {
 
     let inputValue = _.find(this.props.options, (option) => {
       return option.value == this.props.selected;
-    }).displayValue;
+    });
+
+    inputValue = inputValue ? inputValue.displayValue : '';
 
     let input = this.props.editable ?
         <input
