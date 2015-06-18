@@ -117,13 +117,12 @@ export default class List extends React.Component {
 
       Object.keys(currentObjects).forEach((values, index) => {
         Object.keys(ary[index]).forEach((key) => {
-          currentObjects[values][key] = ary[index][key]
+          currentObjects[values][key] = ary[index][key];
 
           if (withAttrs) {
             let mergeableAttrs = {};
             mergeableAttrs[key] = this.formAttrs[`${key.split("-")[0]}`];
-
-            currentObjects[values] = _.extend(currentObjects[values], mergeableAttrs);
+            currentObjects[values][key] = _.extend(currentObjects[values][key], mergeableAttrs[key]);
           }
         });
       });

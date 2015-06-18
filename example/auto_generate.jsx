@@ -46,6 +46,14 @@ var defaultData = {
           label: "Number",
           type: "text",
           value: ""
+        },
+        thing: {
+          label: "Thing",
+          type: "select",
+          options: [
+            { value: "1", displayValue: "1" },
+            { value: "2", displayValue: "2" }
+          ]
         }
       }
     },
