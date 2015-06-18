@@ -24,7 +24,8 @@ var defaultData = {
         { value: "3", displayValue: "Ms" }
       ],
       value: null,
-      placeholder: "Select one..."
+      placeholder: "Select one...",
+      inputClass: "foo"
     },
     name: {
       label: "Name",
