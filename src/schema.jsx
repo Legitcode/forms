@@ -153,7 +153,7 @@ export default class Schema extends React.Component {
             inputType={formAttributes[key].type}
             onBlur={this.onBlur}
             onChange={this.onChange}
-            containerClass={attributes.containerClass}
+            containerClass={formAttributes[key].containerClass || attributes.containerClass}
             inputClass={formAttributes[key].inputClass || attributes.inputClass}
             selected={formAttributes[key].selected}
             options={formAttributes[key].options}
