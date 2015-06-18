@@ -88,6 +88,11 @@ var defaultData = {
       type: "checkbox",
       inputClass: "foo",
       value: true
+    },
+    date: {
+      label: "Date",
+      type: "date",
+      value: "06-17-2015"
     }
   }
 }

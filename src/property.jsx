@@ -10,6 +10,7 @@ import PasswordInput from './controls/password_input';
 import HiddenInput from './controls/hidden_input';
 import TextAreaInput from './controls/textarea_input';
 import CheckboxInput from './controls/checkbox_input';
+import DateInput from './controls/date_input';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -38,7 +39,8 @@ export default class Property extends React.Component {
     "password": PasswordInput,
     "hidden": HiddenInput,
     "textarea": TextAreaInput,
-    "checkbox": CheckboxInput
+    "checkbox": CheckboxInput,
+    "date": DateInput
   }
 
   constructor(props) {
@@ -129,7 +131,8 @@ export default class Property extends React.Component {
       selected: this.props.value,
       placeholder: this.props.placeholder,
       isOpen: this.props.isOpen,
-      label: this.props.label
+      label: this.props.label,
+      dateFormat: this.props.dateFormat
     }
   }
 
