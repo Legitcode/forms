@@ -22,18 +22,6 @@ export default class ListItem extends React.Component {
     this.onBlur = this.onBlur.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let stateChanged = false;
-
-    Object.keys(this.props).forEach((key) => {
-      if (this.props[key] != nextProps[key]) {
-        stateChanged = true;
-      }
-    });
-
-    return stateChanged;
-  }
-
   valid() {
     let valid = true;
 
