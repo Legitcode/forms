@@ -149,6 +149,10 @@ export default class Property extends React.Component {
     }
   }
 
+  hideLabel() {
+    return _.contains(["hidden", "checkbox"], this.props.inputType) || this.props.hideLabel;
+  }
+
   render() {
     let errorState = null,
         label = null;
@@ -159,7 +163,7 @@ export default class Property extends React.Component {
       errorState = 'none';
     }
 
-    if (!_.contains(["hidden", "checkbox"], this.props.inputType)) {
+    if (!this.hideLabel()) {
       label = <label>{this.props.label}</label>
     }
 

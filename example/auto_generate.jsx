@@ -37,6 +37,12 @@ var defaultData = {
     list: {
       rowClass: "my-row clearfix",
       name: "phone",
+      header: true,
+      heading: "Phone Numbers",
+      headerClass: "list-header",
+      headerItemClass: "list-header-item",
+      containerClass: "form-group inline",
+      listClass: "list-group",
       formAttrs: {
         phone: {
           label: "Phone Number",
@@ -54,13 +60,16 @@ var defaultData = {
           options: [
             { value: "1", displayValue: "1" },
             { value: "2", displayValue: "2" }
-          ]
+          ],
+          inputClass: "foo"
         }
       }
     },
     'list-1': {
       rowClass: "my-row clearfix",
       name: "Foo",
+      listClass: "list-group",
+      heading: "Stuff",
       formAttrs: {
         me: {
           label: "Me",
@@ -130,7 +139,6 @@ export default class AutoGenerate extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     let addButton = (
       <a href="javascript:void(0)"
         dangerouslySetInnerHTML={{__html: '&plus;'}}

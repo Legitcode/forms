@@ -162,6 +162,7 @@ export default class Schema extends React.Component {
             placeholder={formAttributes[key].placeholder}
             invalid={formAttributes[key].invalid}
             isOpen={formAttributes[key].isOpen}
+            hideLabel={formAttributes[key].hideLabel}
           />
         )
       } else if (key.match(/list/i)) {
@@ -180,8 +181,13 @@ export default class Schema extends React.Component {
             onBlur={this.onBlur}
             listItems={formAttributes[key].listItems}
             autoGenerate={this.props.autoGenerate}
-            containerClass={attributes.containerClass}
-            inputClass={attributes.inputClass}
+            containerClass={formAttributes[key].containerClass || attributes.containerClass}
+            inputClass={formAttributes[key].inputClass || attributes.inputClass}
+            header={formAttributes[key].header}
+            heading={formAttributes[key].heading}
+            headerClass={formAttributes[key].headerClass}
+            headerItemClass={formAttributes[key].headerItemClass}
+            classes={formAttributes[key].listClass}
           >
         </List>
         )

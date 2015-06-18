@@ -72,6 +72,27 @@ input[type='checkbox'] {
   width: 80%;
   display: inline-block; }
 
+.form-group.inline {
+  width: 29%;
+  display: inline-block;
+  margin-right: 2%; }
+  .form-group.inline:last-child {
+    margin-right: 0; }
+
+.list-group {
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 15px; }
+
+ul.list-header {
+  list-style-type: none;
+  padding: 0; }
+  ul.list-header li {
+    display: inline-block;
+    width: 29%;
+    margin-right: 2%;
+    font-weight: 700; }
+
 div.error {
   padding: 5px 10px;
   color: red;

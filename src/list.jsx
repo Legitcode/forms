@@ -185,12 +185,32 @@ export default class List extends React.Component {
           rowClass: this.props.rowClass,
           removeChild: this.removeChild,
           onChange: this.onChange,
-          onBlur: this.onBlur
+          onBlur: this.onBlur,
+          hideLabel: this.props.header
         });
       });
     }
 
     return children;
+  }
+
+  generateHeader() {
+    let headerItems = Object.keys(this.props.formAttrs).map((key) => {
+      return (
+        <li
+          className={this.props.headerItemClass}
+          key={key}
+        >
+          {this.props.formAttrs[key].label}
+        </li>
+      )
+    });
+
+    return (
+      <ul className={this.props.headerClass}>
+        { headerItems }
+      </ul>
+    )
   }
 
   render() {
@@ -199,10 +219,22 @@ export default class List extends React.Component {
       onClick: this.addChild
     });
 
-    let children = this.generateChildren();
+    let children = this.generateChildren(),
+        header = null,
+        heading = null;
+
+    if (this.props.header) {
+      header = this.generateHeader();
+    }
+
+    if (this.props.heading) {
+      heading = <h4>{this.props.heading}</h4>;
+    }
 
     return (
       <div className={this.props.classes}>
+        { heading }
+        { header }
         { children }
         { addButton }
       </div>

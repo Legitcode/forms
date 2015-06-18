@@ -105,6 +105,34 @@ input[type='checkbox'] {
   }
 }
 
+.form-group.inline {
+  width: 29%;
+  display: inline-block;
+  margin-right: 2%;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.list-group {
+  border: solid 1px black;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+ul.list-header {
+  list-style-type: none;
+  padding: 0;
+
+  li {
+    display: inline-block;
+    width: 29%;
+    margin-right: 2%;
+    font-weight: 700;
+  }
+}
+
 div.error {
   padding: 5px 10px;
   color: red;
