@@ -27,6 +27,15 @@ var defaultData = {
       placeholder: "Select one...",
       inputClass: "foo"
     },
+    search: {
+      label: "Search Example",
+      type: "select",
+      options: [{}],
+      editable: true,
+      value: null,
+      placeholder: "Type to search...",
+      inputClass: "foo"
+    },
     name: {
       label: "Name",
       type: "text",

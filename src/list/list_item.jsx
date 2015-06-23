@@ -100,7 +100,8 @@ export default class ListItem extends React.Component {
           placeholder: properties[key].placeholder,
           invalid: properties[key].invalid,
           isOpen: properties[key].isOpen,
-          hideLabel: this.props.hideLabel
+          hideLabel: this.props.hideLabel,
+          editable: properties[key].editable
         });
       });
     } else {

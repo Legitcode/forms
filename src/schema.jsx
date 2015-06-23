@@ -163,6 +163,7 @@ export default class Schema extends React.Component {
             invalid={formAttributes[key].invalid}
             isOpen={formAttributes[key].isOpen}
             hideLabel={formAttributes[key].hideLabel}
+            editable={formAttributes[key].editable}
           />
         )
       } else if (key.match(/list/i)) {

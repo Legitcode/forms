@@ -132,7 +132,8 @@ export default class Property extends React.Component {
       placeholder: this.props.placeholder,
       isOpen: this.props.isOpen,
       label: this.props.label,
-      dateFormat: this.props.dateFormat
+      dateFormat: this.props.dateFormat,
+      editable: this.props.editable
     }
   }
 
