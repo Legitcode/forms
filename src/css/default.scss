@@ -67,6 +67,7 @@ input[type='checkbox'] {
     max-height: 250px;
     overflow-y: scroll;
     background: $opaque-white;
+    z-index: 99999;
 
     a {
       text-decoration: none;
@@ -75,6 +76,16 @@ input[type='checkbox'] {
       display: block;
       padding: 8px 15px;
       border-bottom: solid lighten($blue, 40) 1px;
+
+      span.option {
+        display: block;
+      }
+
+      span.option-detail {
+        display: block;
+        font-size: 0.8em;
+        padding: 3px 5px;
+      }
 
       &:hover {
         cursor: pointer !important;;

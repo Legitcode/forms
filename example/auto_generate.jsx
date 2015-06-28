@@ -19,7 +19,7 @@ var defaultData = {
       label: "Title",
       type: "select",
       options: [
-        { value: "1", displayValue: "Mr" },
+        { value: "1", displayValue: "Mr", detail: "Little things" },
         { value: "2", displayValue: "Mrs" },
         { value: "3", displayValue: "Ms" }
       ],

@@ -128,7 +128,14 @@ export default class SelectInput extends React.Component {
           onClick={this.changeSelected}
           className="select-option"
           value={option.value} >
-          {option.displayValue}
+          <span className="option">{option.displayValue}</span>
+
+          {
+            option.detail ?
+              <span className="option-detail">{option.detail}</span>
+            :
+              null
+          }
         </a>
       )
     });

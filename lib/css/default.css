@@ -47,7 +47,8 @@ input[type='checkbox'] {
     border-bottom-left-radius: 5px;
     max-height: 250px;
     overflow-y: scroll;
-    background: rgba(255, 255, 255, 0.95); }
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 99999; }
     .select .option-box a {
       text-decoration: none;
       color: darkgrey;
@@ -55,6 +56,12 @@ input[type='checkbox'] {
       display: block;
       padding: 8px 15px;
       border-bottom: solid #bad8ee 1px; }
+      .select .option-box a span.option {
+        display: block; }
+      .select .option-box a span.option-detail {
+        display: block;
+        font-size: 0.8em;
+        padding: 3px 5px; }
       .select .option-box a:hover {
         cursor: pointer !important;
         background: white; }
