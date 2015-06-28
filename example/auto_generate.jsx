@@ -70,9 +70,34 @@ var defaultData = {
             { value: "1", displayValue: "1" },
             { value: "2", displayValue: "2" }
           ],
-          inputClass: "foo"
+          inputClass: "foo",
+          value: "1"
         }
-      }
+      },
+      listItems: [
+        {
+          'phone-0': {
+            label: "Phone Number",
+            type: "phone",
+            value: "123"
+          },
+          'number-0': {
+            label: "Number",
+            type: "text",
+            value: "456"
+          },
+          'thing-0': {
+            label: "Thing",
+            type: "select",
+            options: [
+              { value: "1", displayValue: "1" },
+              { value: "2", displayValue: "2" }
+            ],
+            inputClass: "foo",
+            value: "1"
+          }
+        }
+      ]
     },
     'list-1': {
       rowClass: "my-row clearfix",

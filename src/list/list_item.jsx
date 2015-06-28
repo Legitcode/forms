@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Property from '../property';
+import Obj from '../utils/obj';
 import _ from 'underscore';
 
 export default class ListItem extends React.Component {
@@ -37,17 +38,17 @@ export default class ListItem extends React.Component {
   serialize() {
     let refKeys = Object.keys(this.refs);
 
-    let ary = refKeys.map((refKey)=> {
+    let values = refKeys.map((refKey) => {
       return this.refs[refKey].serialize();
     });
 
-    let obj = {}
+    let serialized = {}
 
-    ary.forEach((value, index) => {
-      obj[refKeys[index]] = value;
+    values.forEach((value, index) => {
+      serialized[refKeys[index]] = value;
     });
 
-    return obj;
+    return serialized;
   }
 
   onChange(ev, value) {

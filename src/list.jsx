@@ -102,33 +102,13 @@ export default class List extends React.Component {
   }
 
   serialize(withAttrs) {
-    let currentObjects = {};
-
-    let ary = Object.keys(this.refs).map((refKey) => {
+    let currentObjects = Object.keys(this.refs).map((refKey) => {
       if (refKey.match(/-[0-9]{1,100}/)) {
         return this.refs[refKey].serialize();
       }
     });
 
-    ary = _.compact(ary);
-
-    if (_.size(ary) > 0) {
-      currentObjects = Obj.clone(this.props.listItems);
-
-      Object.keys(currentObjects).forEach((values, index) => {
-        Object.keys(ary[index]).forEach((key) => {
-          currentObjects[values][key] = ary[index][key];
-
-          if (withAttrs) {
-            let mergeableAttrs = {};
-            mergeableAttrs[key] = this.formAttrs[`${key.split("-")[0]}`];
-            currentObjects[values][key] = _.extend(currentObjects[values][key], mergeableAttrs[key]);
-          }
-        });
-      });
-    }
-
-    return currentObjects;
+    return _.compact(currentObjects);
   }
 
   createChild() {
