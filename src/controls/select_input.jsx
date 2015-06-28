@@ -72,7 +72,7 @@ export default class SelectInput extends React.Component {
   }
 
   changeSelected(event) {
-    let valueElement = event.target;
+    let valueElement = event.currentTarget;
     let selectedValue = valueElement.attributes.value.value;
     let selectedDisplay = valueElement.innerHTML;
 
