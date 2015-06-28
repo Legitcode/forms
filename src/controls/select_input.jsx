@@ -74,7 +74,7 @@ export default class SelectInput extends React.Component {
   changeSelected(event) {
     let valueElement = event.currentTarget;
     let selectedValue = valueElement.attributes.value.value;
-    let selectedDisplay = valueElement.innerHTML;
+    let selectedDisplay = valueElement.querySelector(".option").innerHTML;
 
     React.findDOMNode(this.refs.selected).value = selectedDisplay;
     React.findDOMNode(this.refs.valueInput).value = selectedValue;
@@ -127,7 +127,7 @@ export default class SelectInput extends React.Component {
           key={`selectOption-${option.value}`}
           onClick={this.changeSelected}
           className="select-option"
-          value={option.value} >
+          value={option.value}>
           <span className="option">{option.displayValue}</span>
 
           {
