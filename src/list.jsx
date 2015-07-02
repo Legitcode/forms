@@ -78,6 +78,16 @@ export default class List extends React.Component {
     return stateChanged;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.listItems) {
+      let items = Obj.clone(_.compact(this.props.listItems));
+      let lastItem = items.slice(-1)[0];
+      this.childCount = parseInt(Object.keys(lastItem)[0].split("-")[1]) + 1;
+    } else {
+      this.childCount = 0;
+    }
+  }
+
   valid() {
     let valid = true;
 
@@ -112,14 +122,14 @@ export default class List extends React.Component {
   }
 
   createChild() {
-    let currentObjects = {},
+    let currentObjects = [],
         newObject = {};
 
     if (this.props.listItems) {
       currentObjects = Obj.clone(this.props.listItems);
     }
 
-    newObject = Obj.clone(this.formAttrs);
+    newObject = Obj.clone(this.props.formAttrs);
 
     Object.keys(newObject).forEach((key) => {
       newObject[`${key}-${this.childCount}`] = newObject[key];
@@ -136,12 +146,16 @@ export default class List extends React.Component {
   }
 
   removeChild(ev, listItem) {
-    let object = _.find(Object.keys(this.props.listItems), (item) => {
-      return item == parseInt(listItem.split("-")[1]);
+    let itemNumber = parseInt(listItem.split("-")[1]);
+
+    let object = _.find(this.props.listItems, (item) => {
+      let itemIndex = parseInt(Object.keys(item)[0].split("-")[1]);
+      return itemIndex == parseInt(listItem.split("-")[1]);
     });
 
+    let itemIndex = this.props.listItems.indexOf(object);
     let currentObjects = _.clone(this.props.listItems);
-    delete currentObjects[object];
+    currentObjects.splice(itemIndex, 1);
 
     this.props.onListChange("deleteListItem", currentObjects, this.props.listKey);
   }
@@ -153,9 +167,7 @@ export default class List extends React.Component {
     if (listItems) {
       let items = _.compact(listItems);
 
-      console.log(items);
       children = items.map((item, index) => {
-        console.log(item);
         return React.createElement(ListItem, {
           key: `listItem-${index}`,
           ref: `listItem-${index}`,

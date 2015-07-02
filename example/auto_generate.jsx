@@ -96,6 +96,28 @@ var defaultData = {
             inputClass: "foo",
             value: "1"
           }
+        },
+        {
+          'phone-1': {
+            label: "Phone Number",
+            type: "phone",
+            value: "123"
+          },
+          'number-1': {
+            label: "Number",
+            type: "text",
+            value: "456"
+          },
+          'thing-1': {
+            label: "Thing",
+            type: "select",
+            options: [
+              { value: "1", displayValue: "1" },
+              { value: "2", displayValue: "2" }
+            ],
+            inputClass: "foo",
+            value: "1"
+          }
         }
       ]
     },

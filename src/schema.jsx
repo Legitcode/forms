@@ -6,6 +6,7 @@ import List from './list';
 import ListItem from './list/list_item';
 import _ from 'underscore';
 import underscoreDeepExtend from 'underscore-deep-extend';
+import Obj from './utils/obj';
 
 export default class Schema extends React.Component {
   static defaultProps = {
