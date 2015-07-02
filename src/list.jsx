@@ -122,7 +122,7 @@ export default class List extends React.Component {
     newObject = Obj.clone(this.formAttrs);
 
     Object.keys(newObject).forEach((key) => {
-      newObject[`${key}-${this.childCount}`] = Obj.clone(this.formAttrs)[key];
+      newObject[`${key}-${this.childCount}`] = newObject[key];
       delete newObject[key];
     });
 
@@ -153,13 +153,15 @@ export default class List extends React.Component {
     if (listItems) {
       let items = _.compact(listItems);
 
-      children = Object.keys(items).map((key) => {
+      console.log(items);
+      children = items.map((item, index) => {
+        console.log(item);
         return React.createElement(ListItem, {
-          key: `listItem-${key}`,
-          ref: `listItem-${key}`,
-          name: `listItem-${key}`,
-          itemIndex: key,
-          properties: listItems[key],
+          key: `listItem-${index}`,
+          ref: `listItem-${index}`,
+          name: `listItem-${index}`,
+          itemIndex: index,
+          properties: item,
           autoGenerate: true,
           removeButton: this.props.removeButton,
           containerClass: this.props.containerClass,
