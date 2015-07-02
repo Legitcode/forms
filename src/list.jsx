@@ -151,7 +151,9 @@ export default class List extends React.Component {
         children = null;
 
     if (listItems) {
-      children = Object.keys(listItems).map((key) => {
+      let items = _.compact(listItems);
+
+      children = Object.keys(items).map((key) => {
         return React.createElement(ListItem, {
           key: `listItem-${key}`,
           ref: `listItem-${key}`,
