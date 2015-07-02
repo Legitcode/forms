@@ -128,7 +128,7 @@ export default class List extends React.Component {
 
     currentObjects[this.childCount] = newObject;
     this.childCount += 1;
-    return currentObjects;
+    return _.compact(currentObjects);
   }
 
   addChild(ev) {
