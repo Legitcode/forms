@@ -171,7 +171,7 @@ export default class SelectInput extends React.Component {
     return (
       <div className={inputClass}>
         <span className="arrow" ref="arrow"></span>
-        <input type="hidden" ref="valueInput" value={this.props.selected}/>
+        <input name={this.props.name} type="hidden" ref="valueInput" value={this.props.selected}/>
         { input }
         <div className={showOptions}>
           { options }

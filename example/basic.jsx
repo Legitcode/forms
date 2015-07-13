@@ -75,7 +75,7 @@ export default class Basic extends React.Component {
           />
 
           <Property
-            inputType="text"
+            inputType="autosize"
             name="name"
             label="Name"
             onBlur={this.onBlur}
