@@ -151,7 +151,6 @@ export default class SelectInput extends React.Component {
           ref="selected"
           type="text"
           className={inputState}
-          name={this.props.name}
           defaultValue={inputValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
@@ -162,7 +161,6 @@ export default class SelectInput extends React.Component {
           ref="selected"
           type="text"
           className={inputState}
-          name={this.props.name}
           defaultValue={inputValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
@@ -173,7 +171,7 @@ export default class SelectInput extends React.Component {
     return (
       <div className={inputClass}>
         <span className="arrow" ref="arrow"></span>
-        <input type="hidden" ref="valueInput" value={this.props.selected}/>
+        <input name={this.props.name} type="hidden" ref="valueInput" value={this.props.selected}/>
         { input }
         <div className={showOptions}>
           { options }
