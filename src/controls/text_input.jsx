@@ -12,14 +12,14 @@ export default class TextInput extends BaseInput {
   render() {
     return (
       <input
-        className={this.props.classes}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         type="text"
         ref={this.props.name}
         name={this.props.name}
+        className={this.props.inputClass}
         defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder} />
+      />
     )
   }
 }

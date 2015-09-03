@@ -19,7 +19,8 @@ export default class HiddenInput extends BaseInput {
         ref={this.props.name}
         name={this.props.name}
         defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder} 
+      />
     )
   }
 }

@@ -19,7 +19,8 @@ export default class PasswordInput extends BaseInput {
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         defaultValue={this.props.defaultValue}
-      placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder} 
+      />
     )
   }
 }

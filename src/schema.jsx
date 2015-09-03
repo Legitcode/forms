@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import Property from './property';
 import List from './list';

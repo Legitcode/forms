@@ -1,13 +1,19 @@
-"use strict";
-
 import React from 'react';
 import Schema from './schema';
+import FormStore from './form_store';
+import AltContainer from 'alt/AltContainer';
 import _ from 'underscore';
 import underscoreDeepExtend from 'underscore-deep-extend';
 
 _.mixin({deepExtend: underscoreDeepExtend(_)});
 
 export default class Form extends React.Component {
+  static propTypes = {
+    onChange: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
+    submitButton: React.PropTypes.object
+  }
+
   static defaultProps = {
     onChange: function(ev, value) {
       console.log(value);
@@ -38,7 +44,7 @@ export default class Form extends React.Component {
     return stateChanged;
   }
 
-  onBlur(ev, attributes, listKey) {
+  onBlur = (ev, attributes, listKey) => {
     let mergedProps = _.clone(this.props.attributes);
 
     if (ev == "deleteListItem") {
@@ -106,10 +112,12 @@ export default class Form extends React.Component {
     });
 
     return (
-      <div className={this.props.classes}>
-        { children }
-        { this.props.noSubmit ? null : submitButton }
-      </div>
-    )
+      <AltContainer store={FormStore}>
+        <div className={this.props.classes}>
+          { children }
+          { this.props.noSubmit ? null : submitButton }
+        </div>
+      </AltContainer>
+    );
   }
 }

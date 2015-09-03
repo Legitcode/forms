@@ -12,14 +12,15 @@ export default class TextAreaInput extends BaseInput {
   render() {
     return (
       <textarea
-        className={this.props.classes}
+        className={this.props.inputClass}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         type="text"
         ref={this.props.name}
         name={this.props.name}
         defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder} 
+      />
     )
   }
 }
