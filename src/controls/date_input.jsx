@@ -1,5 +1,3 @@
-"use strict";
-
 import BaseInput from './base_input';
 import React from 'react';
 import _ from 'underscore';
@@ -8,8 +6,6 @@ import Pikaday from 'pikaday';
 export default class DateInput extends BaseInput {
   constructor(props) {
     super(props);
-
-    this.onBlur = this.onBlur.bind(this);
   }
 
   componentDidMount() {
@@ -23,30 +19,24 @@ export default class DateInput extends BaseInput {
     });
   }
 
-  value() {
-    return React.findDOMNode(this.refs[this.props.name]).value;
+  onBlur = (ev) => {
+    this.props.onBlur(ev, this.picker.toString());
   }
 
-  serialize(date) {
-    let formValue = {};
-    formValue['value'] = this.value();
-    return formValue;
-  }
-
-  onBlur(date) {
-    if (date) {
-      this.props.onBlur(null, this.picker.toString());
-    }
+  onChange = (ev) => {
+    this.props.onChange(ev, this.picker.toString());
   }
 
   render() {
     return (
       <input
-        className={this.props.classes}
+        className={this.props.inputClass}
         type="text"
         ref={this.props.name}
         name={this.props.name}
         defaultValue={this.props.defaultValue}
+        onBlur={this.onBlur}
+        onChange={this.onChange}
       />
     )
   }

@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import TextInput from './controls/text_input';
 import NumberInput from './controls/number_input';
@@ -11,7 +9,6 @@ import HiddenInput from './controls/hidden_input';
 import TextAreaInput from './controls/textarea_input';
 import CheckboxInput from './controls/checkbox_input';
 import DateInput from './controls/date_input';
-import AutosizeInput from 'react-input-autosize';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -42,100 +39,81 @@ export default class Property extends React.Component {
     "textarea": TextAreaInput,
     "checkbox": CheckboxInput,
     "date": DateInput,
-    "autosize": AutosizeInput
   }
 
   constructor(props) {
     super(props);
 
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.state = { errorState: 'none' }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let stateChanged = false;
+  componentDidMount() {
+    this.validate = this.buildValidation(this.props.validation);
+    this.mounted = true;
+  }
 
-    Object.keys(this.props).forEach((key) => {
-      if (this.props[key] != nextProps[key]) {
-        stateChanged = true;
-      }
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
+  buildValidation = (funcString) => {
+    if (funcString) {
+      return new Function('value', `return ${funcString}`);
+    } else {
+      return null;
+    }
+  }
+
+  setErrorState = (valid) => {
+    this.setState({
+      errorState: valid ? 'none' : 'block'
     });
-
-    return stateChanged;
   }
 
-  onBlur(ev, value) {
-    let isValid = this.valid(),
-        values = this.serialize(),
-        newValue = {};
+  onBlur = (ev, value) => {
+    if (this.mounted) {
+      this.valid();
 
-    newValue[this.props.name] = {
-      value: values.value,
-      displayValue: values.displayValue,
-      invalid: !isValid,
-      isOpen: values.isOpen
-    };
+      let newValue = {};
+      newValue[this.props.name] = value;
 
-    this.props.onBlur(ev, newValue);
+      this.props.onBlur(ev, newValue);
+    }
   }
 
-  onChange(ev, value) {
-    if (this.isSelect()) {
-      let isValid = this.valid(),
-          values = this.serialize(),
-          newValue = {};
+  onChange = (ev, value) => {
+    if (this.mounted && (this.props.inputType === "select" || this.props.inputType === "checkbox")) {
+      this.valid();
 
-      newValue[this.props.name] = {
-        value: values.value,
-        displayValue: values.displayValue,
-        invalid: !isValid,
-        isOpen: values.isOpen
-      };
-
+      let newValue = {};
+      newValue[this.props.name] = value;
+      
       this.props.onChange(ev, newValue);
     }
   }
 
-  addErrors() {
-    this.onBlur();
+  valid() {
+    if(!this.validate) return true;
+
+    let valid = this.validate(this.value());
+
+    this.setErrorState(valid);
+    
+    return valid;
   }
 
   value() {
-    if (this.refs[this.props.name]) {
-      return this.refs[this.props.name].value();
-    }
-  }
-
-  serialize() {
-    if (this.refs[this.props.name]) {
-      return this.refs[this.props.name].serialize();
-    }
-  }
-
-  isSelect() {
-    return this.props.inputType == "select";
-  }
-
-  valid() {
-    if(!this.props.validation) return true;
-    return this.props.validation(this.value());
+    return this.refs[this.props.name].value();
   }
 
   inputProps() {
     return {
+      ...this.props,
       ref: this.props.name,
       name: this.props.name,
       defaultValue: this.props.value || this.props.defaultValue,
-      classes: this.props.inputClass,
       onBlur: this.onBlur,
-      onChange: this.onChange,
-      options: this.props.options,
-      selected: this.props.value,
-      placeholder: this.props.placeholder,
-      isOpen: this.props.isOpen,
-      label: this.props.label,
-      dateFormat: this.props.dateFormat,
-      editable: this.props.editable
+      onChange: this.onChange
     }
   }
 
@@ -157,14 +135,9 @@ export default class Property extends React.Component {
   }
 
   render() {
-    let errorState = null,
-        label = null;
-
-    if (this.props.invalid) {
-      errorState = 'block';
-    } else {
-      errorState = 'none';
-    }
+    let errorState,
+        label,
+        containerClass;
 
     if (!this.hideLabel()) {
       label = <label>{this.props.label}</label>
@@ -174,7 +147,7 @@ export default class Property extends React.Component {
       <div className={this.props.containerClass} key={this.props.value}>
         { label }
         { this.inputType() }
-        <div className="error" style={{display: errorState}}>{this.props.errorMessage}</div>
+        <div className="error" style={{display: this.state.errorState}}>{this.props.errorMessage}</div>
       </div>
     )
   }

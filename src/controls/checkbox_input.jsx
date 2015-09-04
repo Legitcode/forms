@@ -17,14 +17,15 @@ export default class TextInput extends BaseInput {
     return (
       <label>
         <input
-          className={this.props.classes}
-          onChange={this.onBlur}
+          className={this.props.inputClass}
+          onChange={this.onChange}
           onBlur={this.onBlur}
           type="checkbox"
           ref={this.props.name}
           name={this.props.name}
           placeholder={this.props.placeholder}
-          checked={this.props.defaultValue}/>
+          checked={this.props.defaultValue}
+        />
 
         { this.props.label }
       </label>

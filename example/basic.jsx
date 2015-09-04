@@ -3,7 +3,7 @@
 import React from 'react';
 import _ from 'underscore';
 import underscoreDeepExtend from 'underscore-deep-extend';
-import { Form, Schema, List, Property } from '../src/forms';
+import { Form, Schema, AutoList, Property } from '../src/forms';
 
 _.mixin({deepExtend: underscoreDeepExtend(_)});
 
@@ -88,13 +88,11 @@ export default class Basic extends React.Component {
             invalid={this.state.name ? this.state.name.invalid : false}
           />
 
-          <List
+          <AutoList
             name="phone"
             rowClass="my-row"
             addButton={addButton}
-            removeButton={removeButton}
-            onListChange={this.onListChange}
-            listItems={this.state.listItems}>
+            removeButton={removeButton}>
 
             <Property
               inputType="Phone"
@@ -106,7 +104,7 @@ export default class Basic extends React.Component {
               inputClass="form-control"
               containerClass="form-group"
             />
-          </List>
+          </AutoList>
         </Schema>
       </Form>
     )

@@ -2,34 +2,32 @@
 
 import React from 'react';
 import _ from 'underscore';
-import underscoreDeepExtend from 'underscore-deep-extend';
 import { Form } from '../src/forms';
 
-_.mixin({deepExtend: underscoreDeepExtend(_)});
-
 var defaultData = {
+  resourceName: "tests",
   containerClass: "form-group",
   inputClass: "form-control",
   formAttrs: {
     id: {
-      type: "hidden",
+      inputType: "hidden",
       value: "1"
     },
     title: {
       label: "Title",
-      type: "select",
+      inputType: "select",
       options: [
         { value: "1", displayValue: "Mr", detail: "Little things" },
         { value: "2", displayValue: "Mrs" },
         { value: "3", displayValue: "Ms" }
       ],
-      value: null,
+      value: "2",
       placeholder: "Select one...",
       inputClass: "foo"
     },
     search: {
       label: "Search Example",
-      type: "select",
+      inputType: "select",
       options: [{}],
       editable: true,
       value: null,
@@ -38,12 +36,12 @@ var defaultData = {
     },
     name: {
       label: "Name",
-      type: "text",
+      inputType: "text",
       errorMessage: "Name is required",
       validation: "value.length > 0",
       value: ""
     },
-    list: {
+    'list-0': {
       rowClass: "my-row clearfix",
       name: "phone",
       header: true,
@@ -55,17 +53,17 @@ var defaultData = {
       formAttrs: {
         phone: {
           label: "Phone Number",
-          type: "phone",
+          inputType: "phone",
           value: ""
         },
         number: {
           label: "Number",
-          type: "text",
+          inputType: "text",
           value: ""
         },
         thing: {
           label: "Thing",
-          type: "select",
+          inputType: "select",
           options: [
             { value: "1", displayValue: "1" },
             { value: "2", displayValue: "2" }
@@ -78,17 +76,17 @@ var defaultData = {
         {
           'phone-0': {
             label: "Phone Number",
-            type: "phone",
+            inputType: "phone",
             value: "123"
           },
           'number-0': {
             label: "Number",
-            type: "text",
+            inputType: "text",
             value: "456"
           },
           'thing-0': {
             label: "Thing",
-            type: "select",
+            inputType: "select",
             options: [
               { value: "1", displayValue: "1" },
               { value: "2", displayValue: "2" }
@@ -100,17 +98,17 @@ var defaultData = {
         {
           'phone-1': {
             label: "Phone Number",
-            type: "phone",
-            value: "123"
+            inputType: "phone",
+            value: "999"
           },
           'number-1': {
             label: "Number",
-            type: "text",
-            value: "456"
+            inputType: "text",
+            value: "20"
           },
           'thing-1': {
             label: "Thing",
-            type: "select",
+            inputType: "select",
             options: [
               { value: "1", displayValue: "1" },
               { value: "2", displayValue: "2" }
@@ -129,43 +127,44 @@ var defaultData = {
       formAttrs: {
         me: {
           label: "Me",
-          type: "text",
+          inputType: "text",
           value: ""
         }
-      }
+      },
+      listItems: []
     },
     address: {
       label: "Street Address",
-      type: "text",
+      inputType: "text",
       value: ""
     },
     age: {
       label: "Age",
-      type: "number",
+      inputType: "number",
       errorMessage: "Age must be a positive number",
       validation: "parseInt(value) >= 0",
       value: ""
     },
     email: {
       label: "Email Address",
-      type: "email",
+      inputType: "email",
       errorMessage: "Must be a valid email address",
       validation: "value.match(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9]+$/i)",
       value: ""
     },
     notes: {
       label: "Notes",
-      type: "textarea"
+      inputType: "textarea"
     },
-    valid: {
-      label: "Valid",
-      type: "checkbox",
+    married: {
+      label: "Married",
+      inputType: "checkbox",
       inputClass: "foo",
       value: true
     },
     date: {
       label: "Date",
-      type: "date",
+      inputType: "date",
       value: "06-17-2015"
     }
   }
@@ -174,36 +173,26 @@ var defaultData = {
 export default class AutoGenerate extends React.Component {
   constructor(props) {
     super(props);
-
-    this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
-    this.state = defaultData;
   }
 
-  onChange(ev, attributes) {
-    this.setState(attributes);
-  }
-
-  onBlur(ev, attributes) {
-    this.setState(attributes);
-  }
-
-  onSubmit(formValues) {
+  onSubmit = (formValues) => {
     console.log(formValues);
+  }
+
+  clearForm = () => {
+    this.refs.form.resetForm();
   }
 
   render() {
     let addButton = (
-      <a href="javascript:void(0)"
+      <a href="#"
         dangerouslySetInnerHTML={{__html: '&plus;'}}
         className="btn btn-success">
       </a>
     );
 
     let removeButton = (
-      <a href="javascript:void(0)"
+      <a href="#"
          dangerouslySetInnerHTML={{__html: '&times;'}}
          className="btn btn-danger pad-left">
       </a>
@@ -214,19 +203,22 @@ export default class AutoGenerate extends React.Component {
     );
 
     return (
-      <Form
-        autoGenerate={true}
-        attributes={this.state}
-        addButton={addButton}
-        removeButton={removeButton}
-        onBlur={this.onBlur}
-        onChange={this.onChange}
-        onSubmit={this.onSubmit}
-        submitButton={submitButton}
-      />
+      <div>
+        <Form
+          ref='form'
+          autoGenerate={true}
+          attributes={this.props}
+          addButton={addButton}
+          removeButton={removeButton}
+          onSubmit={this.onSubmit}
+          submitButton={submitButton}
+        />
+
+        <button onClick={this.clearForm}>Clear Form</button>
+      </div>
     )
   }
 }
 
 require('../src/css/default.scss');
-React.render(<AutoGenerate />, document.getElementById('react'));
+React.render(<AutoGenerate {...defaultData} />, document.getElementById('react'));

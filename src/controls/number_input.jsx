@@ -12,14 +12,15 @@ export default class NumberInput extends BaseInput {
   render() {
     return (
       <input
-        className={this.props.classes}
+        className={this.props.inputClass}
         type="number"
         ref={this.props.name}
         name={this.props.name}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder} 
+      />
     )
   }
 }

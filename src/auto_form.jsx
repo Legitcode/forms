@@ -1,13 +1,12 @@
 import React from 'react';
 import AutoSchema from './auto_schema';
-import Schema from './schema';
 import FormStore from './form_store';
 import FormActions from './form_actions';
 import AltContainer from 'alt/AltContainer';
 import alt from './alt';
 import _ from 'underscore';
 
-export default class Form extends React.Component {
+export default class AutoForm extends React.Component {
   static propTypes = {
     onSubmit: React.PropTypes.func,
     onChange: React.PropTypes.func,
@@ -36,28 +35,6 @@ export default class Form extends React.Component {
   }
 
   render() {
-    let schema;
-
-    if (this.props.autoGenerate) {
-      schema = (
-        <AutoSchema
-          addButton={this.props.addButton}
-          removeButton={this.props.removeButton}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          noSubmit={this.props.noSubmit}
-          submitButton={this.props.submitButton}
-          submitForm={this.submitForm}
-        />
-      );
-    } else {
-      schema = React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, {
-          submitButton: this.props.submitButton
-        });
-      });;
-    }
-
     return (
       <AltContainer 
         stores={{FormStore}}
@@ -68,8 +45,16 @@ export default class Form extends React.Component {
           var updateFormValue = props => FormActions.updateFormValue(props);
           return { attributes, addChildToList, updateFormValue }
         }}> 
-  
-        { schema }
+
+        <AutoSchema
+          addButton={this.props.addButton}
+          removeButton={this.props.removeButton}
+          onChange={this.onChange}
+          onBlur={this.onBlur}
+          noSubmit={this.props.noSubmit}
+          submitButton={this.props.submitButton}
+          submitForm={this.submitForm}
+        />
       </AltContainer>
     );
   }
