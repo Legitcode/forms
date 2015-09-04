@@ -59,6 +59,19 @@ export default class AutoList extends React.Component {
     this.props.addChildToList(this.props.name);
   }
 
+  valid() {
+    let valid = true;
+
+    Object.keys(this.refs).forEach((refKey) => {
+      if (!this.refs[refKey].valid()) {
+        this.refs[refKey].addErrors();
+        valid = false;
+      }
+    });
+
+    return valid;
+  }
+
   render() {
     let addButton = React.cloneElement(this.props.addButton, {
       onClick: this.addChild

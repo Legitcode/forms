@@ -9,7 +9,9 @@ export default class SelectInput extends React.Component {
 
     this.debouncedSearch = _.debounce(this.getNewValues, 500);
 
-    this.state = { isOpen: false }
+    this.state = { 
+      isOpen: false
+    };
   }
 
   componentDidMount() {
@@ -66,16 +68,13 @@ export default class SelectInput extends React.Component {
   changeSelected = (event) => {
     let valueElement = event.currentTarget;
     let selectedValue = valueElement.attributes.value.value;
-    let selectedDisplay = valueElement.querySelector(".option").innerHTML;
 
-    React.findDOMNode(this.refs.selected).value = selectedDisplay;
-    React.findDOMNode(this.refs.valueInput).value = selectedValue;
     this.toggleDropDown(event);
-    this.onChange(event);
+    this.onChange(event, selectedValue);
   }
 
-  onChange(ev) {
-    this.props.onChange(ev, this.value());
+  onChange(ev, value) {
+    this.props.onChange(ev, value);
   }
 
   value() {
@@ -88,9 +87,12 @@ export default class SelectInput extends React.Component {
 
   render() {
     let showOptions = `option-box ${this.state.isOpen ? 'open' : null}`,
-        inputState = `select-face ${this.state.isOpen ? 'open' : null}`;
+        inputState = `select-face ${this.state.isOpen ? 'open' : null}`,
+        displayValue;
 
     let options = this.props.options.map((option)=> {
+      if (option.value === this.props.value) displayValue = option.displayValue;
+
       return (
         <a href={option.url}
           key={`selectOption-${option.value}`}
@@ -109,18 +111,13 @@ export default class SelectInput extends React.Component {
       )
     });
 
-    let inputValue = _.find(this.props.options, (option) => {
-      return option.value == this.props.selected;
-    });
-
-    inputValue = inputValue ? inputValue.displayValue : '';
 
     let input = this.props.editable ?
         <input
           ref="selected"
           type="text"
           className={inputState}
-          defaultValue={inputValue}
+          defaultValue={displayValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           onChange={this.debouncedSearch} />
@@ -130,7 +127,7 @@ export default class SelectInput extends React.Component {
           ref="selected"
           type="text"
           className={inputState}
-          defaultValue={inputValue}
+          defaultValue={displayValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           readOnly />
@@ -140,7 +137,7 @@ export default class SelectInput extends React.Component {
     return (
       <div className={inputClass}>
         <span className="arrow" ref="arrow"></span>
-        <input name={this.props.name} type="hidden" ref="valueInput" value={this.props.selected}/>
+        <input name={this.props.name} type="hidden" ref="valueInput" value={this.props.value}/>
         { input }
         <div className={showOptions}>
           { options }

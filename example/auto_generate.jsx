@@ -2,12 +2,10 @@
 
 import React from 'react';
 import _ from 'underscore';
-import underscoreDeepExtend from 'underscore-deep-extend';
-import { AutoForm } from '../src/forms';
-
-_.mixin({deepExtend: underscoreDeepExtend(_)});
+import { Form } from '../src/forms';
 
 var defaultData = {
+  resourceName: "tests",
   containerClass: "form-group",
   inputClass: "form-control",
   formAttrs: {
@@ -23,7 +21,7 @@ var defaultData = {
         { value: "2", displayValue: "Mrs" },
         { value: "3", displayValue: "Ms" }
       ],
-      value: null,
+      value: "2",
       placeholder: "Select one...",
       inputClass: "foo"
     },
@@ -158,8 +156,8 @@ var defaultData = {
       label: "Notes",
       inputType: "textarea"
     },
-    valid: {
-      label: "Valid",
+    married: {
+      label: "Married",
       inputType: "checkbox",
       inputClass: "foo",
       value: true
@@ -177,16 +175,12 @@ export default class AutoGenerate extends React.Component {
     super(props);
   }
 
-  onChange = (ev, attributes) => {
-    console.log(attributes);
-  }
-
-  onBlur = (ev, attributes) => {
-    console.log(attributes);
-  }
-
   onSubmit = (formValues) => {
     console.log(formValues);
+  }
+
+  clearForm = () => {
+    this.refs.form.resetForm();
   }
 
   render() {
@@ -209,15 +203,19 @@ export default class AutoGenerate extends React.Component {
     );
 
     return (
-      <AutoForm
-        attributes={this.props}
-        addButton={addButton}
-        removeButton={removeButton}
-        onBlur={this.onBlur}
-        onChange={this.onChange}
-        onSubmit={this.onSubmit}
-        submitButton={submitButton}
-      />
+      <div>
+        <Form
+          ref='form'
+          autoGenerate={true}
+          attributes={this.props}
+          addButton={addButton}
+          removeButton={removeButton}
+          onSubmit={this.onSubmit}
+          submitButton={submitButton}
+        />
+
+        <button onClick={this.clearForm}>Clear Form</button>
+      </div>
     )
   }
 }

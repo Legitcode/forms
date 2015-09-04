@@ -51,15 +51,15 @@ export default class ListItem extends React.Component {
     return serialized;
   }
 
-  onChange(ev, value) {
+  onChange = (ev, value) => {
     this.props.onChange(ev, value);
   }
 
-  onBlur(ev, value) {
+  onBlur = (ev, value) => {
     this.props.onBlur(ev, value);
   }
 
-  removeChild(ev) {
+  removeChild = (ev) => {
     this.props.removeChild(ev, this.props.name);
   }
 
@@ -72,50 +72,20 @@ export default class ListItem extends React.Component {
   }
 
   render() {
-    let children = null;
+    let children = React.Children.map(this.props.children, (child) => {
+          if (!React.isValidElement(child)) {
+            return child;
+          }
+
+          return React.cloneElement(child, {
+            ref: child.props.name
+          });
+        });
+
 
     let removeButton = React.cloneElement(this.props.removeButton, {
       onClick: this.removeChild
     });
-
-    if (this.props.autoGenerate) {
-      let properties = this.props.properties;
-
-      children = Object.keys(properties).map((key) => {
-        return React.createElement(Property, {
-          key: key,
-          name: key,
-          ref: key,
-          label: properties[key].label,
-          validation: this.buildValidation(properties[key].validation),
-          errorMessage: properties[key].errorMessage,
-          inputType: properties[key].type,
-          onBlur: this.onBlur,
-          onChange: this.onChange,
-          containerClass: properties[key].containerClass || this.props.containerClass,
-          inputClass: properties[key].inputClass || this.props.inputClass,
-          selected: properties[key].selected,
-          options: properties[key].options,
-          defaultValue: properties[key].defaultValue,
-          value: properties[key].value,
-          placeholder: properties[key].placeholder,
-          invalid: properties[key].invalid,
-          isOpen: properties[key].isOpen,
-          hideLabel: this.props.hideLabel,
-          editable: properties[key].editable
-        });
-      });
-    } else {
-      children = React.Children.map(this.props.children, (child) => {
-        if (!React.isValidElement(child)) {
-          return child;
-        }
-
-        return React.cloneElement(child, {
-          ref: child.props.name
-        });
-      });
-    }
 
     return (
       <div

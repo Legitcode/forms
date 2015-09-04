@@ -10,6 +10,10 @@ class FormStore {
 
   constructor() {
     this.bindActions(FormActions);
+
+    this.exportPublicMethods({
+      serialize: this.serialize
+    });
   }
 
   setInitialState(props) {
@@ -48,12 +52,10 @@ class FormStore {
   addChildToList(listId) {
     let [list, listKey] = this.getList(listId),
         listIndex = list.get('listItems').size,
-        item = list.get('formAttrs'),
         newItem = this.buildListItem(list, listIndex),
-        seqMap = ['attributes', 'formAttrs', listKey, 'listItems'],
-        listItems = this.state.getIn(seqMap).push(newItem);
+        seqMap = ['attributes', 'formAttrs', listKey, 'listItems'];
 
-    this.setState(this.state.setIn(seqMap, listItems));
+    this.setState(this.state.updateIn(seqMap, listItems => listItems.push(newItem)));
   }   
 
   removeChildFromList(props) {
@@ -83,6 +85,7 @@ class FormStore {
           listItems = this.state.getIn(seqMap),
           itemIndex = key.split("-")[1],
           newListItems = listItems.update(itemIndex, (value) => { return newListItem });
+
       this.setState(this.state.setIn(seqMap, newListItems));
     }
   }
@@ -105,6 +108,47 @@ class FormStore {
     });
 
     return [listItem, item, listId]; 
+  }
+
+  serialize = () => {
+    let formAttributes = this.state.getIn(['attributes', 'formAttrs']),
+        serializedForm = {
+          data: {
+           type: this.state.getIn(['attributes', 'resourceName']),
+           attributes: {}
+          }
+        };
+
+    formAttributes.forEach((value, key) => {
+      if (key.match(/list/i)) {
+        let [listKey, list] = this.getListAttributes(value);
+
+        serializedForm.data.relationships = serializedForm.data.relationships || {};
+        serializedForm.data.relationships[listKey] = list;
+      } else {
+        serializedForm.data.attributes[key] = value.get('value');
+      }
+    });
+
+    return serializedForm;
+  }
+
+  getListAttributes(list) {
+    let listKey = list.get('name'),
+        items = { data: [] };
+
+    list.get('listItems').forEach((item) => {
+      let newItem = {};
+      newItem['type'] = listKey;
+
+      item.forEach((value, key) => {
+        newItem[key.split("-")[0]] = value.get('value');
+      });
+
+      items.data.push(newItem);
+    });
+
+    return [listKey, items];
   }
 }
 

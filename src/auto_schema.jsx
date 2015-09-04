@@ -24,19 +24,6 @@ export default class AutoSchema extends React.Component {
     this.props.updateFormValue(attrs);
   }
 
-  validate() {
-    let valid = true;
-
-    Object.keys(this.refs).forEach((refKey)=> {
-      if(!this.refs[refKey].valid()) {
-        this.refs[refKey].addErrors();
-        valid = false;
-      }
-    });
-
-    return valid;
-  }
-
   generate() {
     let { formAttrs, containerClass, inputClass } = this.props.attributes;
 
@@ -47,6 +34,7 @@ export default class AutoSchema extends React.Component {
             {...value}
             name={key}
             key={`property-${key}`}
+            ref={key}
             containerClass={value.containerClass || containerClass}
             inputClass={value.inputClass || inputClass}
             onBlur={this.onBlur}
@@ -74,12 +62,32 @@ export default class AutoSchema extends React.Component {
     });
   }
 
+  validate() {
+    let valid = true;
+
+    Object.keys(this.refs).forEach((refKey)=> {
+      if(!this.refs[refKey].valid()) {
+        valid = false;
+      }
+    });
+
+    return valid;
+  }
+
+  submitForm = () => {
+    if (this.validate()) this.props.submitForm();
+  }
+
   render() {
-    let children = this.generate();
+    let children = this.generate(),
+        submitButton = React.cloneElement(this.props.submitButton, {
+          onClick: this.submitForm
+        });
 
     return (
       <div key={this.props.schemaName}>
         { children }
+        { this.props.noSubmit ? null : submitButton }
       </div>
     )
   }

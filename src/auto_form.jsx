@@ -3,6 +3,7 @@ import AutoSchema from './auto_schema';
 import FormStore from './form_store';
 import FormActions from './form_actions';
 import AltContainer from 'alt/AltContainer';
+import alt from './alt';
 import _ from 'underscore';
 
 export default class AutoForm extends React.Component {
@@ -25,21 +26,15 @@ export default class AutoForm extends React.Component {
     FormActions.setInitialState(this.props);
   }
 
-  submitForm = (ev) => {
-    if (this.valid()) {
-      this.props.onSubmit(ev, this.refs.schema.serialize());
-    }
+  submitForm = () => {
+    return this.props.onSubmit(FormStore.serialize());
   }
 
-  valid() {
-    return this.refs.schema.validate();
+  resetForm = () => {
+    FormActions.setInitialState(this.props);
   }
 
   render() {
-    let submitButton = React.cloneElement(this.props.submitButton, {
-      onClick: this.submitForm
-    });
-
     return (
       <AltContainer 
         stores={{FormStore}}
@@ -52,14 +47,14 @@ export default class AutoForm extends React.Component {
         }}> 
 
         <AutoSchema
-          ref="schema"
           addButton={this.props.addButton}
           removeButton={this.props.removeButton}
           onChange={this.onChange}
           onBlur={this.onBlur}
+          noSubmit={this.props.noSubmit}
+          submitButton={this.props.submitButton}
+          submitForm={this.submitForm}
         />
-
-          { this.props.noSubmit ? null : submitButton }
       </AltContainer>
     );
   }

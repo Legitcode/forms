@@ -64,11 +64,15 @@ export default class Property extends React.Component {
     }
   }
 
+  setErrorState = (valid) => {
+    this.setState({
+      errorState: valid ? 'none' : 'block'
+    });
+  }
+
   onBlur = (ev, value) => {
     if (this.mounted) {
-      this.setState({
-        errorState: this.valid() ? 'none' : 'block'
-      });
+      this.valid();
 
       let newValue = {};
       newValue[this.props.name] = value;
@@ -78,10 +82,8 @@ export default class Property extends React.Component {
   }
 
   onChange = (ev, value) => {
-    if (this.mounted) {
-      this.setState({
-        errorState: this.valid() ? 'none' : 'block'
-      });
+    if (this.mounted && (this.props.inputType === "select" || this.props.inputType === "checkbox")) {
+      this.valid();
 
       let newValue = {};
       newValue[this.props.name] = value;
@@ -92,7 +94,12 @@ export default class Property extends React.Component {
 
   valid() {
     if(!this.validate) return true;
-    return this.validate(this.value());
+
+    let valid = this.validate(this.value());
+
+    this.setErrorState(valid);
+    
+    return valid;
   }
 
   value() {

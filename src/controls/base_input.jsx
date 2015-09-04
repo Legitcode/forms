@@ -17,8 +17,20 @@ export default class BaseInput extends React.Component {
     this.debouncedChange = _.debounce(this.onChange, 500);
   }
 
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    this.mounted = false;
+  }
+
   value() {
-    return React.findDOMNode(this.refs[this.props.name]).value;
+    if (this.mounted) {
+      return React.findDOMNode(this.refs[this.props.name]).value;
+    } else {
+      return null;
+    }
   }
 
   onChange = (ev) => {
