@@ -135,10 +135,14 @@ export default class Property extends React.Component {
   }
 
   render() {
-    let errorState,
-        label,
-        containerClass;
+    let errorState, label, containerClass;
 
+    if (this.props.invalid === true) {
+      errorState = 'block';
+    } else {
+      errorState = this.state.errorState;
+    }
+    
     if (!this.hideLabel()) {
       label = <label>{this.props.label}</label>
     }
@@ -147,7 +151,7 @@ export default class Property extends React.Component {
       <div className={this.props.containerClass} key={this.props.value}>
         { label }
         { this.inputType() }
-        <div className="error" style={{display: this.state.errorState}}>{this.props.errorMessage}</div>
+        <div className="error" style={{display: errorState}}>{this.props.errorMessage}</div>
       </div>
     )
   }
