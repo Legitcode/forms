@@ -27,6 +27,10 @@ export default class Form extends React.Component {
     FormActions.setInitialState(this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    FormActions.setInitialState(nextProps);
+  }
+
   submitForm = () => {
     return this.props.onSubmit(FormStore.serialize());
   }
