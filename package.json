@@ -2,7 +2,7 @@
   "author": "Darin Haener <dphaener@gmail.com> (https://github.com/dphaener/reactable-forms)",
   "name": "reactable-forms",
   "description": "Form and schema building tools for React",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/dphaener/reactable-forms"
@@ -24,7 +24,7 @@
   "main": "./lib/forms.js",
   "scripts": {
     "test": "jest",
-    "example": "webpack-dev-server --config ./example/webpack.config.js --hot",
+    "example": "webpack-dev-server --config ./example/webpack.config.js --hot --port 8881",
     "compile": "babel src --ignore __tests__ --stage 0 --out-dir lib; node-sass src/css/default.scss lib/css/default.css",
     "push": "npm run compile; npm publish ./"
   },
@@ -43,7 +43,7 @@
     "css-loader": "^0.14.4",
     "file-loader": "^0.8.4",
     "img-loader": "^1.1.0",
-    "jest-cli": "^0.4.5",
+    "legit-tests": "^0.3.3",
     "node-libs-browser": "^0.5.2",
     "node-sass": "^3.2.0",
     "react-hot-loader": "^1.2.7",

@@ -31,8 +31,14 @@ export default class Form extends React.Component {
     FormActions.setInitialState(nextProps);
   }
 
+  onBlur = (ev, attrs) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(FormStore.serialize());
+    }
+  }
+
   submitForm = () => {
-    return this.props.onSubmit(FormStore.serialize());
+    this.props.onSubmit(FormStore.serialize());
   }
 
   resetForm = () => {

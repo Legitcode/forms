@@ -22,6 +22,7 @@ export default class AutoSchema extends React.Component {
 
   onBlur = (ev, attrs) => {
     this.props.updateFormValue(attrs);
+    this.props.onBlur(ev, attrs);
   }
 
   generate() {
@@ -78,6 +79,16 @@ export default class AutoSchema extends React.Component {
     if (this.validate()) this.props.submitForm();
   }
 
+  submitFromKeyboard = (ev) => {
+    if (!ev) return;
+
+    let { keyCode, nativeEvent } = ev;
+
+    if (keyCode === 13 || (nativeEvent && nativeEvent.keyCode === 13)) {
+      this.submitForm();
+    }
+  }
+
   render() {
     let children = this.generate(),
         submitButton = React.cloneElement(this.props.submitButton, {
@@ -85,7 +96,7 @@ export default class AutoSchema extends React.Component {
         });
 
     return (
-      <div key={this.props.schemaName}>
+      <div key={this.props.schemaName} onKeyPress={this.submitFromKeyboard}>
         { children }
         { this.props.noSubmit ? null : submitButton }
       </div>

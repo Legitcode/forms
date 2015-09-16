@@ -2,10 +2,7 @@
 
 import React from 'react';
 import _ from 'underscore';
-import underscoreDeepExtend from 'underscore-deep-extend';
 import { Form, Schema, AutoList, Property } from '../src/forms';
-
-_.mixin({deepExtend: underscoreDeepExtend(_)});
 
 export default class Basic extends React.Component {
   constructor(props) {
