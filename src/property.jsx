@@ -56,6 +56,12 @@ export default class Property extends React.Component {
     this.mounted = false;
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value != this.props.value) {
+      this.valid();
+    }
+  }
+
   buildValidation = (funcString) => {
     if (funcString) {
       return new Function('value', `return ${funcString}`);
@@ -72,19 +78,16 @@ export default class Property extends React.Component {
 
   onBlur = (ev, value) => {
     if (this.mounted) {
-      this.valid();
-
       let newValue = {};
       newValue[this.props.name] = value;
 
+      this.valid();
       this.props.onBlur(ev, newValue);
     }
   }
 
   onChange = (ev, value) => {
     if (this.mounted && (this.props.inputType === "select" || this.props.inputType === "checkbox")) {
-      this.valid();
-
       let newValue = {};
       newValue[this.props.name] = value;
       

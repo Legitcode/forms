@@ -18,6 +18,7 @@ export default class AutoSchema extends React.Component {
 
   onChange = (ev, attrs) => {
     this.props.updateFormValue(attrs);
+    this.props.onChange(ev, attrs);
   }
 
   onBlur = (ev, attrs) => {

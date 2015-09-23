@@ -21,9 +21,11 @@ var defaultData = {
         { value: "2", displayValue: "Mrs" },
         { value: "3", displayValue: "Ms" }
       ],
-      value: "2",
+      value: null,
       placeholder: "Select one...",
-      inputClass: "foo"
+      inputClass: "foo",
+      errorMessage: "Title is required",
+      validation: "value.length > 0"
     },
     search: {
       label: "Search Example",
