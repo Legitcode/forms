@@ -185,6 +185,10 @@ export default class AutoGenerate extends React.Component {
     console.log(formValues);
   }
 
+  onChange = (formValues) => {
+    console.log(formValues);
+  }
+
   clearForm = () => {
     this.refs.form.resetForm();
   }
@@ -218,6 +222,7 @@ export default class AutoGenerate extends React.Component {
           removeButton={removeButton}
           onSubmit={this.onSubmit}
           onBlur={this.onBlur}
+          onChange={this.onChange}
           submitButton={submitButton}
         />
 

@@ -16,9 +16,6 @@ export default class Form extends React.Component {
   }
 
   static defaultProps = {
-    onChange: (ev, value) => {
-      console.log(value);
-    },
     submitButton: <button>Submit</button>,
     noSubmit: false
   }
@@ -34,6 +31,12 @@ export default class Form extends React.Component {
   onBlur = (ev, attrs) => {
     if (this.props.onBlur) {
       this.props.onBlur(FormStore.serialize());
+    }
+  }
+
+  onChange = (ev, attrs) => {
+    if (this.props.onChange) {
+      this.props.onChange(FormStore.serialize());
     }
   }
 
