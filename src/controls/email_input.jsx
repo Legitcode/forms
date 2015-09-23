@@ -1,8 +1,5 @@
-"use strict";
-
 import BaseInput from './base_input';
 import React from 'react';
-import _ from 'underscore';
 
 export default class EmailInput extends BaseInput {
   constructor(props) {

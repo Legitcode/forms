@@ -132,7 +132,7 @@ export default class SelectInput extends React.Component {
           onClick={this.toggleDropDown}
           readOnly />
 
-        let inputClass = `select ${this.props.classes}`
+    let inputClass = `select ${this.props.inputClass}`
 
     return (
       <div className={inputClass}>
