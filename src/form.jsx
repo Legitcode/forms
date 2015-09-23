@@ -58,12 +58,14 @@ export default class Form extends React.Component {
           noSubmit={this.props.noSubmit}
           submitButton={this.props.submitButton}
           submitForm={this.submitForm}
+          className={this.props.className}
         />
       );
     } else {
       schema = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, {
-          submitButton: this.props.submitButton
+          submitButton: this.props.submitButton,
+          className: this.props.className
         });
       });;
     }

@@ -49,7 +49,7 @@ export default class Schema extends React.Component {
         });
 
     return (
-      <div key={this.props.schemaName}>
+      <div key={this.props.schemaName} className={this.props.className}>
         { children }
       </div>
     )

@@ -96,7 +96,7 @@ export default class AutoSchema extends React.Component {
         });
 
     return (
-      <div key={this.props.schemaName} onKeyPress={this.submitFromKeyboard}>
+      <div key={this.props.schemaName} onKeyPress={this.submitFromKeyboard} className={this.props.className}>
         { children }
         { this.props.noSubmit ? null : submitButton }
       </div>
