@@ -44,9 +44,9 @@ export default class SelectInput extends React.Component {
   }
 
   componentWillUnmount() {
-    document.removeEventListener("click");
-    React.findDOMNode(this.refs.selected).removeEventListener("click");
-    React.findDOMNode(this.refs.arrow).removeEventListener("click");
+    document.removeEventListener("click", () => {});
+    React.findDOMNode(this.refs.selected).removeEventListener("click", () => {});
+    React.findDOMNode(this.refs.arrow).removeEventListener("click", () => {});
   }
 
   getNewValues() {

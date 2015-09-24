@@ -11,7 +11,6 @@ import HiddenInput from './controls/hidden_input';
 import TextAreaInput from './controls/textarea_input';
 import CheckboxInput from './controls/checkbox_input';
 import DateInput from './controls/date_input';
-import AutosizeInput from 'react-input-autosize';
 import _ from 'underscore';
 
 export default class Property extends React.Component {
@@ -41,8 +40,7 @@ export default class Property extends React.Component {
     "hidden": HiddenInput,
     "textarea": TextAreaInput,
     "checkbox": CheckboxInput,
-    "date": DateInput,
-    "autosize": AutosizeInput
+    "date": DateInput
   }
 
   constructor(props) {

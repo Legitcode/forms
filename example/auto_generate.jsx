@@ -2,10 +2,7 @@
 
 import React from 'react';
 import _ from 'underscore';
-import underscoreDeepExtend from 'underscore-deep-extend';
 import { Form } from '../src/forms';
-
-_.mixin({deepExtend: underscoreDeepExtend(_)});
 
 var defaultData = {
   containerClass: "form-group",
