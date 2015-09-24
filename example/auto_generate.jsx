@@ -1,7 +1,4 @@
-"use strict";
-
 import React from 'react';
-import _ from 'underscore';
 import { Form } from '../src/forms';
 
 var defaultData = {

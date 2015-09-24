@@ -12,6 +12,11 @@ module.exports = {
       'webpack-dev-server/client?http://localhost:8881/',
       'webpack/hot/only-dev-server',
       './example/auto_generate.jsx'
+    ],
+    'solo': [
+      'webpack-dev-server/client?http://localhost:8881/',
+      'webpack/hot/only-dev-server',
+      './example/solo.jsx'
     ]
   },
   output: {

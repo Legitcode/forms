@@ -1,32 +1,17 @@
-"use strict";
-
 import React from 'react';
-import _ from 'underscore';
-import { Form, Schema, AutoList, Property } from '../src/forms';
+import { Form, Schema, List, Property } from '../src/forms';
 
 export default class Basic extends React.Component {
   constructor(props) {
     super(props);
-
-    this.onBlur = this.onBlur.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onListChange = this.onListChange.bind(this);
-
-    this.state = {};
   }
 
-  onChange(ev, attributes) {
-    this.setState(attributes);
+  onChange(formAttrs) {
+    console.log(formAttrs);
   }
 
-  onListChange(ev, attributes) {
-    this.setState({
-      listItems: attributes
-    });
-  };
-
-  onBlur(ev, attributes) {
-    this.setState(attributes);
+  onBlur(formAttrs) {
+    console.log(formAttrs);
   }
 
   onSubmit(formValues) {
@@ -57,35 +42,35 @@ export default class Basic extends React.Component {
             onBlur={this.onBlur}
             onSubmit={this.onSubmit}
             submitButton={submitButton}>
-        <Schema ref="schema">
+        <Schema ref="schema"
+          submitButton={submitButton}>
+
           <Property
+            ref="title"
             inputType="select"
             name="title"
             label="Title"
-            onChange={this.onChange}
             options={[
               { value: "1", displayValue: "Mr" },
               { value: "2", displayValue: "Mrs" }
             ]}
             value="1"
-            isOpen={this.state.title ? this.state.title.isOpen : false}
           />
 
           <Property
+            ref="name"
             inputType="autosize"
             name="name"
             label="Name"
-            onBlur={this.onBlur}
-            onChange={this.onChange}
             placeholder="John Doe"
             containerClass="form-group"
             inputClass="form-control"
             validation={function(value) { return value.length > 0 }}
             errorMessage="Name is required"
-            invalid={this.state.name ? this.state.name.invalid : false}
           />
 
-          <AutoList
+          <List
+            ref="phone"
             name="phone"
             rowClass="my-row"
             addButton={addButton}
@@ -95,13 +80,11 @@ export default class Basic extends React.Component {
               inputType="Phone"
               name="phone"
               label="Phone Number"
-              onBlur={this.onBlur}
-              onChange={this.onChange}
               placeholder="555-555-5555"
               inputClass="form-control"
               containerClass="form-group"
             />
-          </AutoList>
+          </List>
         </Schema>
       </Form>
     )

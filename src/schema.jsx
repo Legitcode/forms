@@ -42,15 +42,14 @@ export default class Schema extends React.Component {
   }
 
   render() {
-    let children = React.Children.map(this.props.children, (child) => {
-          return React.cloneElement(child, {
-            ref: child.props.name
-          });
-        });
+    let submitButton = React.cloneElement(this.props.submitButton, {
+      onClick: this.submitForm
+    });
 
     return (
       <div key={this.props.schemaName} className={this.props.className}>
-        { children }
+        { this.props.children }
+        { submitButton }
       </div>
     )
   }

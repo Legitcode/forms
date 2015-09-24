@@ -5,7 +5,6 @@ import FormStore from './form_store';
 import FormActions from './form_actions';
 import AltContainer from 'alt/AltContainer';
 import alt from './alt';
-import _ from 'underscore';
 
 export default class Form extends React.Component {
   static propTypes = {
@@ -17,7 +16,8 @@ export default class Form extends React.Component {
 
   static defaultProps = {
     submitButton: <button>Submit</button>,
-    noSubmit: false
+    noSubmit: false,
+    className: ""
   }
 
   componentWillMount() {
@@ -65,12 +65,9 @@ export default class Form extends React.Component {
         />
       );
     } else {
-      schema = React.Children.map(this.props.children, (child) => {
-        return React.cloneElement(child, {
-          submitButton: this.props.submitButton,
-          className: this.props.className
-        });
-      });;
+      schema = React.cloneElement(this.props.children, {
+        submitForm: this.submitForm
+      });
     }
 
     return (
