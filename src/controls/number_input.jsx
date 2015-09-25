@@ -1,5 +1,3 @@
-"use strict";
-
 import BaseInput from './base_input';
 import React from 'react';
 import _ from 'underscore';
@@ -20,6 +18,9 @@ export default class NumberInput extends BaseInput {
         onBlur={this.onBlur}
         defaultValue={this.props.defaultValue}
         placeholder={this.props.placeholder} 
+        min={this.props.min}
+        max={this.props.max}
+        step={this.props.step}
       />
     )
   }
