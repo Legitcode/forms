@@ -3,6 +3,7 @@ import { Form } from '../src/forms';
 
 var defaultData = {
   resourceName: "tests",
+  id: "foo",
   containerClass: "form-group",
   inputClass: "form-control",
   formAttrs: {

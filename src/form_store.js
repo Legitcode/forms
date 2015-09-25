@@ -117,7 +117,10 @@ class FormStore {
            type: this.state.getIn(['attributes', 'resourceName']),
            attributes: {}
           }
-        };
+        },
+        id = this.state.getIn(['attributes', 'id']);
+
+    if (id) serializedForm.data['id'] = id;
 
     formAttributes.forEach((value, key) => {
       if (key.match(/list/i)) {
