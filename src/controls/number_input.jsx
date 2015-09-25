@@ -1,12 +1,9 @@
-"use strict";
-
-import BaseInput from './base_input';
-import React from 'react';
-import _ from 'underscore';
+import React from 'react'
+import BaseInput from './base_input'
 
 export default class NumberInput extends BaseInput {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -19,7 +16,11 @@ export default class NumberInput extends BaseInput {
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         defaultValue={this.props.defaultValue}
-        placeholder={this.props.placeholder} />
+        placeholder={this.props.placeholder} 
+        min={this.props.min}
+        max={this.props.max}
+        step={this.props.step}
+      />
     )
   }
 }

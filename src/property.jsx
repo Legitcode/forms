@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import TextInput from './controls/text_input';
 import NumberInput from './controls/number_input';
@@ -50,10 +48,15 @@ export default class Property extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentDidMount() {
+    this.validate = this.buildValidation(this.props.validation);
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     let stateChanged = false;
 
     Object.keys(this.props).forEach((key) => {
+      if (nextProps.invalid) stateChanged = true;
       if (this.props[key] != nextProps[key]) {
         stateChanged = true;
       }
@@ -114,26 +117,28 @@ export default class Property extends React.Component {
     return this.props.inputType == "select";
   }
 
+  buildValidation(funcString) {
+    if (funcString) {
+      return new Function('value', `return ${funcString}`);
+    } else {
+      return null;
+    }
+  }
+
   valid() {
-    if(!this.props.validation) return true;
-    return this.props.validation(this.value());
+    if(!this.validate) return true;
+    return this.validate(this.value());
   }
 
   inputProps() {
     return {
+      ...this.props,
       ref: this.props.name,
-      name: this.props.name,
       defaultValue: this.props.value || this.props.defaultValue,
       classes: this.props.inputClass,
       onBlur: this.onBlur,
       onChange: this.onChange,
-      options: this.props.options,
-      selected: this.props.value,
-      placeholder: this.props.placeholder,
-      isOpen: this.props.isOpen,
-      label: this.props.label,
-      dateFormat: this.props.dateFormat,
-      editable: this.props.editable
+      selected: this.props.value
     }
   }
 

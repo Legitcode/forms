@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import Property from './property';
 import List from './list';
@@ -130,14 +128,6 @@ export default class Schema extends React.Component {
     }));
   }
 
-  buildValidation(funcString) {
-    if (funcString) {
-      return new Function('value', `return ${funcString}`);
-    } else {
-      return null;
-    }
-  }
-
   generate(attributes) {
     let formAttributes = attributes.formAttrs;
 
@@ -148,23 +138,12 @@ export default class Schema extends React.Component {
             name={key}
             key={`property-${key}`}
             ref={`property-${key}`}
-            label={formAttributes[key].label}
-            validation={this.buildValidation(formAttributes[key].validation)}
-            errorMessage={formAttributes[key].errorMessage}
             inputType={formAttributes[key].type}
             onBlur={this.onBlur}
             onChange={this.onChange}
             containerClass={formAttributes[key].containerClass || attributes.containerClass}
             inputClass={formAttributes[key].inputClass || attributes.inputClass}
-            selected={formAttributes[key].selected}
-            options={formAttributes[key].options}
-            defaultValue={formAttributes[key].defaultValue}
-            value={formAttributes[key].value}
-            placeholder={formAttributes[key].placeholder}
-            invalid={formAttributes[key].invalid}
-            isOpen={formAttributes[key].isOpen}
-            hideLabel={formAttributes[key].hideLabel}
-            editable={formAttributes[key].editable}
+            {...formAttributes[key]}
           />
         )
       } else if (key.match(/list/i)) {
@@ -176,20 +155,13 @@ export default class Schema extends React.Component {
             rowClass={formAttributes[key].rowClass}
             addButton={this.props.addButton}
             removeButton={this.props.removeButton}
-            name={formAttributes[key].name}
-            formAttrs={formAttributes[key].formAttrs}
             onListChange={this.onListChange}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            listItems={formAttributes[key].listItems}
-            autoGenerate={this.props.autoGenerate}
             containerClass={formAttributes[key].containerClass || attributes.containerClass}
             inputClass={formAttributes[key].inputClass || attributes.inputClass}
-            header={formAttributes[key].header}
-            heading={formAttributes[key].heading}
-            headerClass={formAttributes[key].headerClass}
-            headerItemClass={formAttributes[key].headerItemClass}
             classes={formAttributes[key].listClass}
+            {...formAttributes[key]}
           >
         </List>
         )

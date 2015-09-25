@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import _ from 'underscore';
 import { Form } from '../src/forms';
@@ -141,7 +139,9 @@ var defaultData = {
       type: "number",
       errorMessage: "Age must be a positive number",
       validation: "parseInt(value) >= 0",
-      value: ""
+      value: "",
+      min: 0,
+      max: 10
     },
     email: {
       label: "Email Address",
