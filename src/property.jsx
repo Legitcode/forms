@@ -154,6 +154,7 @@ export default class Property extends React.Component {
       <div className={this.props.containerClass} key={this.props.value}>
         { label }
         { this.inputType() }
+        { this.props.postLabel ? <span className={this.props.postLabelClass}>{this.props.postLabel}</span> : null }
         <div className="error" style={{display: errorState}}>{this.props.errorMessage}</div>
       </div>
     )

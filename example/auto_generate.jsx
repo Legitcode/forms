@@ -39,7 +39,9 @@ var defaultData = {
       inputType: "text",
       errorMessage: "Name is required",
       validation: "value.length > 0",
-      value: ""
+      value: "",
+      postLabel: "Foo",
+      postLabelClass: "Bar"
     },
     'list-0': {
       rowClass: "my-row clearfix",
