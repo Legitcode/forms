@@ -46,7 +46,7 @@ export default class SelectInput extends React.Component {
   getNewValues = (ev) => {
     if (this.mounted) {
       let value = ev.target.value,
-          regex = new RegExp(value),
+          regex = new RegExp(value, 'i'),
           values = _.select(this.props.options, (v) => {
             return v.displayValue.match(regex);
           }); 
