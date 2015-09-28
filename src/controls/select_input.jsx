@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import _ from 'underscore';
 
@@ -15,7 +13,7 @@ export default class SelectInput extends React.Component {
   }
 
   componentWillMount() {
-    let selected = _.find(this.props.options, (option) => option.value === this.props.value);
+    let selected = _.find(this.props.options, (option) => option.value.toString() === (this.props.value ? this.props.value.toString() : ""));
     let displayValue = selected ? selected.displayValue : null
     this.setState({ displayValue: displayValue });
   }
@@ -76,7 +74,7 @@ export default class SelectInput extends React.Component {
         selectedValue = valueElement.attributes.value.value,
         innerHTML = valueElement.firstChild.innerHTML;
 
-    this.setState({ displayValue: innerHTML });
+    this.setState({ displayValue: innerHTML.toString() });
     this.toggleDropDown(event);
     this.onChange(event, selectedValue);
   }
