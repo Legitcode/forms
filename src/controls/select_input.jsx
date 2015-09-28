@@ -5,10 +5,9 @@ export default class SelectInput extends React.Component {
   constructor(props) {
     super(props);
 
-    this.debouncedSearch = _.debounce(this.getNewValues, 500);
-
     this.state = { 
-      isOpen: false
+      isOpen: false,
+      filteredOptions: props.options
     };
   }
 
@@ -41,13 +40,18 @@ export default class SelectInput extends React.Component {
     document.removeEventListener("click", () => {});
     React.findDOMNode(this.refs.selected).removeEventListener("click", () => {});
     React.findDOMNode(this.refs.arrow).removeEventListener("click", () => {});
-
     this.mounted = false;
   }
 
-  getNewValues() {
+  getNewValues = (ev) => {
     if (this.mounted) {
-      this.setState({ inputState: "select-face" });
+      let value = ev.target.value,
+          regex = new RegExp(value),
+          values = _.select(this.props.options, (v) => {
+            return v.displayValue.match(regex);
+          }); 
+
+      this.setState({ filteredOptions: values });
     }
   }
 
@@ -92,7 +96,7 @@ export default class SelectInput extends React.Component {
   }
 
   renderOptions = () => {
-    return this.props.options.map((option)=> {
+    return this.state.filteredOptions.map((option)=> {
       return (
         <a href={option.url}
           key={`selectOption-${option.value}`}
@@ -116,7 +120,7 @@ export default class SelectInput extends React.Component {
     let showOptions = `option-box ${this.state.isOpen ? 'open' : null}`,
         inputState = `select-face ${this.state.isOpen ? 'open' : null}`;
 
-    let input = this.props.editable ?
+    let input = this.props.searchable ?
         <input
           ref="selected"
           type="text"
@@ -124,7 +128,7 @@ export default class SelectInput extends React.Component {
           value={this.state.displayValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
-          onChange={this.debouncedSearch} />
+          onKeyUp={this.getNewValues} />
 
       :
         <input
