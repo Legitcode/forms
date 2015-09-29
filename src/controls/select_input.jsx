@@ -125,7 +125,7 @@ export default class SelectInput extends React.Component {
           ref="selected"
           type="text"
           className={inputState}
-          value={this.state.displayValue}
+          defaultValue={this.state.displayValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           onKeyUp={this.getNewValues} />
