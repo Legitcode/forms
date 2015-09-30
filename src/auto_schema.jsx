@@ -5,7 +5,7 @@ import _ from 'underscore';
 
 export default class AutoSchema extends React.Component {
   static propTypes = {
-    attributes: React.PropTypes.object.isRequired,
+    flux: React.PropTypes.object,
     addButton: React.PropTypes.object,
     removeButton: React.PropTypes.object
   }
@@ -17,17 +17,18 @@ export default class AutoSchema extends React.Component {
   }
 
   onChange = (ev, attrs) => {
-    this.props.updateFormValue(attrs);
+    this.props.flux.actions.FormActions.updateFormValue(attrs);
     this.props.onChange(ev, attrs);
   }
 
   onBlur = (ev, attrs) => {
-    this.props.updateFormValue(attrs);
+    this.props.flux.actions.FormActions.updateFormValue(attrs);
     this.props.onBlur(ev, attrs);
   }
 
-  generate() {
-    let { formAttrs, containerClass, inputClass } = this.props.attributes;
+  generate = () => {
+    const { attributes } = this.props.flux.stores.FormStore.getImmutState(),
+          { formAttrs, containerClass, inputClass } = attributes;
 
     return _.map(formAttrs, (value, key) => {
       if (!key.match(/list/i)) {
@@ -56,7 +57,7 @@ export default class AutoSchema extends React.Component {
             removeButton={this.props.removeButton}
             onChange={this.onChange}
             onBlur={this.onBlur}
-            addChildToList={this.props.addChildToList}
+            addChildToList={this.props.flux.actions.FormActions.addChildToList}
           >
         </AutoList>
         )

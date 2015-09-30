@@ -1,81 +1,87 @@
-import alt from './alt';
-import immutable from 'alt/utils/ImmutableUtil';
-import Immutable from 'immutable';
-import FormActions from './form_actions';
+import immutable from 'alt/utils/ImmutableUtil'
+import Immutable from 'immutable'
 
 @immutable
-
-class FormStore {
-  static displayName = 'FormStore';
-
-  constructor() {
-    this.bindActions(FormActions);
+export default class FormStore {
+  constructor(FormActions) {
+    this.bindActions(FormActions)
 
     this.exportPublicMethods({
-      serialize: this.serialize
-    });
+      serialize: this.serialize,
+      getImmutState: this.getImmutState,
+      lists: this.lists,
+      getList: this.getList,
+      buildListItem: this.buildListItem,
+      addChildToList: this.addChildToList,
+      updateFormValue: this.updateFormValue,
+      findInLists: this.findInLists
+    })
   }
 
   setInitialState(props) {
-    this.setState(Immutable.fromJS(props));
+    this.setState(Immutable.fromJS(props))
   }
  
+  getImmutState() {
+    return this.getState().toJS()
+  }
+
   lists() {
     return this.state.getIn(['attributes', 'formAttrs']).filter((value, key) => {
-      return key.match(/list/i);
-    });
+      return key.match(/list/i)
+    })
   }
 
   getList(listId) {
-    let list, listKey;
+    let list, listKey
 
     list = this.state.getIn(['attributes', 'formAttrs']).find((value, key) => {
       if (value.get('name') === listId && key.match(/list/i)) {
-        listKey = key;
-        return true;
+        listKey = key
+        return true
       }
-    });
+    })
 
-    return [list, listKey];
+    return [list, listKey]
   }
 
   buildListItem(list, listIndex) {
-    let newItem = {};
+    let newItem = {}
 
     list.get('formAttrs').forEach((value, key) => {
-      newItem[`${key}-${listIndex}`] = value.toJS();
-    });
+      newItem[`${key}-${listIndex}`] = value.toJS()
+    })
 
-    return Immutable.fromJS(newItem);
+    return Immutable.fromJS(newItem)
   }
 
   addChildToList(listId) {
     let [list, listKey] = this.getList(listId),
         listIndex = list.get('listItems').size,
         newItem = this.buildListItem(list, listIndex),
-        seqMap = ['attributes', 'formAttrs', listKey, 'listItems'];
+        seqMap = ['attributes', 'formAttrs', listKey, 'listItems']
 
-    this.setState(this.state.updateIn(seqMap, listItems => listItems.push(newItem)));
+    this.setState(this.state.updateIn(seqMap, listItems => listItems.push(newItem)))
   }   
 
   removeChildFromList(props) {
     let { listId, itemIndex } = props,
         [list, listKey] = this.getList(listId),
         seqMap = ['attributes', 'formAttrs', listKey, 'listItems'],
-        listItems = this.state.getIn(seqMap).delete(itemIndex);
+        listItems = this.state.getIn(seqMap).delete(itemIndex)
 
-    this.setState(this.state.setIn(seqMap, listItems));  
+    this.setState(this.state.setIn(seqMap, listItems))  
   }
 
   updateFormValue(props) {
     let key = Object.keys(props)[0],
         value = props[key],
         seqMap = ['attributes', 'formAttrs', key],
-        item = this.state.getIn(seqMap);
+        item = this.state.getIn(seqMap)
 
     if (item) {
-      let newItem = item.set('value', value);
-      this.setState(this.state.setIn(seqMap, newItem));
+      let newItem = item.set('value', value)
+      this.setState(this.state.setIn(seqMap, newItem))
     } else {
       let [listItem, item, listId] = this.findInLists(key),
           newItem = item.set('value', value),
@@ -84,9 +90,9 @@ class FormStore {
           seqMap = ['attributes', 'formAttrs', listKey, 'listItems'],
           listItems = this.state.getIn(seqMap),
           itemIndex = key.split("-")[1],
-          newListItems = listItems.update(itemIndex, (value) => { return newListItem });
+          newListItems = listItems.update(itemIndex, (value) => { return newListItem })
 
-      this.setState(this.state.setIn(seqMap, newListItems));
+      this.setState(this.state.setIn(seqMap, newListItems))
     }
   }
 
@@ -95,19 +101,19 @@ class FormStore {
         itemIndex = key.split("-")[1],
         item,
         listItem,
-        listId;
+        listId
 
     lists.forEach((list) => {
-      listId = list.get('name');
-      listItem = list.get('listItems').slice(itemIndex, itemIndex + 1).first();
+      listId = list.get('name')
+      listItem = list.get('listItems').slice(itemIndex, itemIndex + 1).first()
       item = listItem.find((value, itemKey) => {
-        return itemKey === key;
-      });
+        return itemKey === key
+      })
 
-      if (item) return false;
-    });
+      if (item) return false
+    })
 
-    return [listItem, item, listId]; 
+    return [listItem, item, listId] 
   }
 
   serialize = () => {
@@ -118,41 +124,39 @@ class FormStore {
            attributes: {}
           }
         },
-        id = this.state.getIn(['attributes', 'id']);
+        id = this.state.getIn(['attributes', 'id'])
 
-    if (id) serializedForm.data['id'] = id;
+    if (id) serializedForm.data['id'] = id
 
     formAttributes.forEach((value, key) => {
       if (key.match(/list/i)) {
-        let [listKey, list] = this.getListAttributes(value);
+        let [listKey, list] = this.getListAttributes(value)
 
-        serializedForm.data.relationships = serializedForm.data.relationships || {};
-        serializedForm.data.relationships[listKey] = list;
+        serializedForm.data.relationships = serializedForm.data.relationships || {}
+        serializedForm.data.relationships[listKey] = list
       } else {
-        serializedForm.data.attributes[key] = value.get('value');
+        serializedForm.data.attributes[key] = value.get('value')
       }
-    });
+    })
 
-    return serializedForm;
+    return serializedForm
   }
 
   getListAttributes(list) {
     let listKey = list.get('name'),
-        items = { data: [] };
+        items = { data: [] }
 
     list.get('listItems').forEach((item) => {
-      let newItem = {};
-      newItem['type'] = listKey;
+      let newItem = {}
+      newItem['type'] = listKey
 
       item.forEach((value, key) => {
-        newItem[key.split("-")[0]] = value.get('value');
-      });
+        newItem[key.split("-")[0]] = value.get('value')
+      })
 
-      items.data.push(newItem);
-    });
+      items.data.push(newItem)
+    })
 
-    return [listKey, items];
+    return [listKey, items]
   }
 }
-
-export default alt.createStore(FormStore)

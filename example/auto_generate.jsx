@@ -28,7 +28,11 @@ var defaultData = {
     search: {
       label: "Search Example",
       inputType: "select",
-      options: [{"value":40,"displayValue":"Briess2-RowBrewersMalt","detail":"5,205 Pounds on hand."},{"value":40,"displayValue":"Briess Chocolate Malt","detail":"380 Pounds on hand."},{"value":40,"displayValue":"Briess Goldpils Vienna","detail":"184 Pounds on hand."},{"value":40,"displayValue":"Briess Caramel 10","detail":"400 Pounds on hand."},{"value":40,"displayValue":"Briess 2-Row Brewers Malt","detail":"5,000 Pounds on hand."},{"value":3,"displayValue":"Briess Pilsen Malt","detail":"Not in stock"},{"value":2,"displayValue":"Briess 6-Row Brewers Malt","detail":"Not in stock"},{"value":4,"displayValue":"Briess Pale Ale Malt","detail":"Not in stock"},{"value":38,"displayValue":"Briess Caramel 40","detail":"Not in stock"}],
+      options: [
+        { value: "1", displayValue: "Foo Bar" },
+        { value: "2", displayValue: "BarFoo" },
+        { value: "3", displayValue: "Bargle Fargle" }
+      ],
       value: null,
       placeholder: "Type to search...",
       inputClass: "foo",

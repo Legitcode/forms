@@ -1,10 +1,11 @@
-import React from 'react';
-import AutoSchema from './auto_schema';
-import Schema from './schema';
-import FormStore from './form_store';
-import FormActions from './form_actions';
-import AltContainer from 'alt/AltContainer';
-import alt from './alt';
+import React from 'react'
+import AutoSchema from './auto_schema'
+import Schema from './schema'
+import FormFlux from './flux'
+import AltContainer from 'alt/AltContainer'
+
+const formActions = FormFlux.actions.FormActions,
+      formStore = FormFlux.stores.FormStore
 
 export default class Form extends React.Component {
   static propTypes = {
@@ -21,35 +22,35 @@ export default class Form extends React.Component {
   }
 
   componentWillMount() {
-    FormActions.setInitialState(this.props);
+    formActions.setInitialState(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    FormActions.setInitialState(nextProps);
+    formActions.setInitialState(nextProps)
   }
 
   onBlur = (ev, attrs) => {
     if (this.props.onBlur) {
-      this.props.onBlur(FormStore.serialize());
+      this.props.onBlur(formStore.serialize())
     }
   }
 
   onChange = (ev, attrs) => {
     if (this.props.onChange) {
-      this.props.onChange(FormStore.serialize());
+      this.props.onChange(formStore.serialize())
     }
   }
 
   submitForm = () => {
-    this.props.onSubmit(FormStore.serialize());
+    this.props.onSubmit(formStore.serialize())
   }
 
   resetForm = () => {
-    FormActions.setInitialState(this.props);
+    formActions.setInitialState(this.props)
   }
 
   render() {
-    let schema;
+    let schema
 
     if (this.props.autoGenerate) {
       schema = (
@@ -63,26 +64,17 @@ export default class Form extends React.Component {
           submitForm={this.submitForm}
           className={this.props.className}
         />
-      );
+      )
     } else {
       schema = React.cloneElement(this.props.children, {
         submitForm: this.submitForm
-      });
+      })
     }
 
     return (
-      <AltContainer 
-        stores={{FormStore}}
-        actions={{FormActions}}
-        transform={({ FormStore, FormActions }) => {
-          var attributes = FormStore.toJS().attributes;
-          var addChildToList = listId => FormActions.addChildToList(listId);
-          var updateFormValue = props => FormActions.updateFormValue(props);
-          return { attributes, addChildToList, updateFormValue }
-        }}> 
-  
+      <AltContainer flux={FormFlux} > 
         { schema }
       </AltContainer>
-    );
+    )
   }
 }
