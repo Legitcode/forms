@@ -7,14 +7,7 @@ export default class FormStore {
     this.bindActions(FormActions)
 
     this.exportPublicMethods({
-      serialize: this.serialize,
-      getImmutState: this.getImmutState,
-      lists: this.lists,
-      getList: this.getList,
-      buildListItem: this.buildListItem,
-      addChildToList: this.addChildToList,
-      updateFormValue: this.updateFormValue,
-      findInLists: this.findInLists
+      serialize: this.serialize
     })
   }
 

@@ -4,8 +4,6 @@ import Schema from './schema'
 import FormFlux from './flux'
 import AltContainer from 'alt/AltContainer'
 
-const formActions = FormFlux.actions.FormActions,
-      formStore = FormFlux.stores.FormStore
 
 export default class Form extends React.Component {
   static propTypes = {
@@ -21,36 +19,45 @@ export default class Form extends React.Component {
     className: ""
   }
 
+  constructor(props) {
+    super(props)
+
+    let flux = new FormFlux()
+    this.formActions = flux.actions.formActions
+    this.formStore = flux.stores.formStore
+  }
+
   componentWillMount() {
-    formActions.setInitialState(this.props)
+    this.formActions.setInitialState(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    formActions.setInitialState(nextProps)
+    this.formActions.setInitialState(nextProps)
   }
 
   onBlur = (ev, attrs) => {
     if (this.props.onBlur) {
-      this.props.onBlur(formStore.serialize())
+      this.props.onBlur(this.formStore.serialize())
     }
   }
 
   onChange = (ev, attrs) => {
     if (this.props.onChange) {
-      this.props.onChange(formStore.serialize())
+      this.props.onChange(this.formStore.serialize())
     }
   }
 
   submitForm = () => {
-    this.props.onSubmit(formStore.serialize())
+    this.props.onSubmit(this.formStore.serialize())
   }
 
   resetForm = () => {
-    formActions.setInitialState(this.props)
+    this.formActions.setInitialState(this.props)
   }
 
   render() {
-    let schema
+    let schema,
+        { formStore, formActions } = this
 
     if (this.props.autoGenerate) {
       schema = (
@@ -72,7 +79,14 @@ export default class Form extends React.Component {
     }
 
     return (
-      <AltContainer flux={FormFlux} > 
+      <AltContainer 
+        stores={{formStore}}
+        actions={{formActions}}
+        transform={({ formStore, formActions }) => {
+          let { attributes } = formStore.toJS()
+          
+          return { attributes, formActions }
+        }}> 
         { schema }
       </AltContainer>
     )

@@ -43,6 +43,12 @@ export default class SelectInput extends React.Component {
     this.mounted = false
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    let update = !(this.props.value === nextProps.value)
+    update = !(this.state.isOpen === nextState.isOpen)
+    return update
+  }
+
   getNewValues = (ev) => {
     if (this.mounted) {
       let value = ev.target.value,
@@ -117,6 +123,7 @@ export default class SelectInput extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     let showOptions = `option-box ${this.state.isOpen ? 'open' : null}`,
         inputState = `select-face ${this.state.isOpen ? 'open' : null}`
 
@@ -135,7 +142,7 @@ export default class SelectInput extends React.Component {
           ref="selected"
           type="text"
           className={inputState}
-          value={this.state.displayValue}
+          defaultValue={this.state.displayValue}
           placeholder={this.props.placeholder}
           onClick={this.toggleDropDown}
           readOnly />
@@ -145,7 +152,7 @@ export default class SelectInput extends React.Component {
     return (
       <div className={inputClass}>
         <span className="arrow" ref="arrow"></span>
-        <input name={this.props.name} type="hidden" ref="valueInput" defaultvalue={this.props.value}/>
+        <input name={this.props.name} type="hidden" ref="valueInput" value={this.props.value}/>
         { input }
         <div className={showOptions}>
           { this.renderOptions() }
