@@ -1,3 +1,6 @@
+import Immutable from 'immutable'
+import immutable from 'alt/utils/ImmutableUtil'
+import AltContainer from 'alt/AltContainer'
 import React from 'react';
 import { Form } from '../src/forms';
 
@@ -176,7 +179,13 @@ var defaultData = {
   }
 }
 
-export default class AutoGenerate extends React.Component {
+class TestActions {
+  constructor() {
+    this.generateActions('updateValue', 'setInitialState')
+  }
+}
+
+export default class AutoGenerateTwo extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -216,6 +225,8 @@ export default class AutoGenerate extends React.Component {
       <button className="btn btn-primary">Submit</button>
     );
 
+    let newAttrs = Object.assign({}, this.props)
+
     return (
       <div>
         <Form
@@ -232,10 +243,24 @@ export default class AutoGenerate extends React.Component {
         />
 
         <button onClick={this.clearForm}>Clear Form</button>
+        <Form
+          ref='form'
+          identifier='autoForm'
+          autoGenerate={true}
+          attributes={newAttrs}
+          addButton={addButton}
+          removeButton={removeButton}
+          onSubmit={this.onSubmit}
+          onBlur={this.onBlur}
+          onChange={this.onChange}
+          submitButton={submitButton}
+        />
+
+        <button onClick={this.clearForm}>Clear Form</button>
       </div>
     )
   }
 }
 
 require('../src/css/default.scss');
-React.render(<AutoGenerate {...defaultData} />, document.getElementById('react'));
+React.render(<AutoGenerateTwo {...defaultData} />, document.getElementById('react'));

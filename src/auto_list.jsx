@@ -56,6 +56,7 @@ export default class AutoList extends React.Component {
   }
 
   addChild = (ev) => {
+    ev.preventDefault()
     this.props.addChildToList(this.props.name);
   }
 

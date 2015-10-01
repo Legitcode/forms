@@ -1,10 +1,9 @@
-import React from 'react';
-import AutoSchema from './auto_schema';
-import Schema from './schema';
-import FormStore from './form_store';
-import FormActions from './form_actions';
-import AltContainer from 'alt/AltContainer';
-import alt from './alt';
+import React from 'react'
+import AutoSchema from './auto_schema'
+import Schema from './schema'
+import FormFlux from './flux'
+import AltContainer from 'alt/AltContainer'
+
 
 export default class Form extends React.Component {
   static propTypes = {
@@ -20,36 +19,45 @@ export default class Form extends React.Component {
     className: ""
   }
 
+  constructor(props) {
+    super(props)
+
+    let flux = new FormFlux()
+    this.formActions = flux.actions.formActions
+    this.formStore = flux.stores.formStore
+  }
+
   componentWillMount() {
-    FormActions.setInitialState(this.props);
+    this.formActions.setInitialState(this.props)
   }
 
   componentWillReceiveProps(nextProps) {
-    FormActions.setInitialState(nextProps);
+    this.formActions.setInitialState(nextProps)
   }
 
   onBlur = (ev, attrs) => {
     if (this.props.onBlur) {
-      this.props.onBlur(FormStore.serialize());
+      this.props.onBlur(this.formStore.serialize())
     }
   }
 
   onChange = (ev, attrs) => {
     if (this.props.onChange) {
-      this.props.onChange(FormStore.serialize());
+      this.props.onChange(this.formStore.serialize())
     }
   }
 
   submitForm = () => {
-    this.props.onSubmit(FormStore.serialize());
+    this.props.onSubmit(this.formStore.serialize())
   }
 
   resetForm = () => {
-    FormActions.setInitialState(this.props);
+    this.formActions.setInitialState(this.props)
   }
 
   render() {
-    let schema;
+    let schema,
+        { formStore, formActions } = this
 
     if (this.props.autoGenerate) {
       schema = (
@@ -63,26 +71,24 @@ export default class Form extends React.Component {
           submitForm={this.submitForm}
           className={this.props.className}
         />
-      );
+      )
     } else {
       schema = React.cloneElement(this.props.children, {
         submitForm: this.submitForm
-      });
+      })
     }
 
     return (
       <AltContainer 
-        stores={{FormStore}}
-        actions={{FormActions}}
-        transform={({ FormStore, FormActions }) => {
-          var attributes = FormStore.toJS().attributes;
-          var addChildToList = listId => FormActions.addChildToList(listId);
-          var updateFormValue = props => FormActions.updateFormValue(props);
-          return { attributes, addChildToList, updateFormValue }
+        stores={{formStore}}
+        actions={{formActions}}
+        transform={({ formStore, formActions }) => {
+          let { attributes } = formStore.toJS()
+          
+          return { attributes, formActions }
         }}> 
-  
         { schema }
       </AltContainer>
-    );
+    )
   }
 }

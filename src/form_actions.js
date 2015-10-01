@@ -1,6 +1,4 @@
-import alt from './alt';
-
-class FormActions {
+export default class FormActions {
   constructor() {
     this.generateActions(
       'addChildToList',
@@ -10,5 +8,3 @@ class FormActions {
     );
   }
 }
-
-export default alt.createActions(FormActions);

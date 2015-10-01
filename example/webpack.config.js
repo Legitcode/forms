@@ -17,6 +17,11 @@ module.exports = {
       'webpack-dev-server/client?http://localhost:8881/',
       'webpack/hot/only-dev-server',
       './example/solo.jsx'
+    ],
+    'two-forms': [
+      'webpack-dev-server/client?http://localhost:8881/',
+      'webpack/hot/only-dev-server',
+      './example/two_forms.jsx'
     ]
   },
   output: {
