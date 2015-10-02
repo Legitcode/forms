@@ -123,7 +123,6 @@ export default class SelectInput extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     let showOptions = `option-box ${this.state.isOpen ? 'open' : null}`,
         inputState = `select-face ${this.state.isOpen ? 'open' : null}`
 

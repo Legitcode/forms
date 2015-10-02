@@ -2,6 +2,17 @@ import React from 'react';
 import { Property } from '../src/forms';
 
 export default class Solo extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = { value: "1" }
+  }
+
+  onChange = (ev, val) => {
+    console.log(val)
+    this.setState({ value: val.title })
+  }
+
   render() {
     return (
       <Property
@@ -12,7 +23,8 @@ export default class Solo extends React.Component {
           { value: "1", displayValue: "Mr" },
           { value: "2", displayValue: "Mrs" }
         ]}
-        value="1"
+        value={this.state.value}
+        onChange={this.onChange}
       />
     );
   }
