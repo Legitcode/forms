@@ -15,6 +15,7 @@ export default class PhoneInput extends BaseInput {
         className={this.props.inputClass}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
+        onKeyPress={this.keyPressed}
         type="phone"
         ref={this.props.name}
         name={this.props.name}

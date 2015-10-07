@@ -11,6 +11,7 @@ export default class NumberInput extends BaseInput {
     return (
       <input
         className={this.props.inputClass}
+        onKeyPress={this.keyPressed}
         type="number"
         ref={this.props.name}
         name={this.props.name}

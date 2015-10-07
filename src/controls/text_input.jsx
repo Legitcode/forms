@@ -11,6 +11,7 @@ export default class TextInput extends BaseInput {
       <input
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
+        onKeyPress={this.keyPressed}
         type="text"
         ref={this.props.name}
         name={this.props.name}

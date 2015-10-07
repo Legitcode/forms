@@ -37,6 +37,7 @@ export default class DateInput extends BaseInput {
         defaultValue={this.props.defaultValue}
         onBlur={this.onBlur}
         onChange={this.onChange}
+        onKeyPress={this.keyPressed}
       />
     )
   }

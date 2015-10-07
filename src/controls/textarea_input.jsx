@@ -13,6 +13,7 @@ export default class TextAreaInput extends BaseInput {
     return (
       <textarea
         className={this.props.inputClass}
+        onKeyPress={this.keyPressed}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         type="text"

@@ -10,6 +10,7 @@ export default class EmailInput extends BaseInput {
     return (
       <input
         className={this.props.inputClass}
+        onKeyPress={this.keyPressed}
         onChange={this.debouncedChange}
         onBlur={this.onBlur}
         type="email"

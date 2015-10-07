@@ -33,6 +33,16 @@ export default class BaseInput extends React.Component {
     }
   }
 
+  keyPressed = (ev) => {
+    if (!ev) return;
+
+    let { keyCode, nativeEvent } = ev;
+
+    if (keyCode === 13 || (nativeEvent && nativeEvent.keyCode === 13)) {
+      this.onBlur(ev);
+    }
+  }
+
   onChange = (ev) => {
     this.props.onChange(ev, this.value());
   }
